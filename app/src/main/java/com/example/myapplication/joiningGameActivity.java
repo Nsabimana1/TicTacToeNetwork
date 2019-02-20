@@ -16,8 +16,8 @@ public class joiningGameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_joining_game);
 
-        ipEntry.findViewById(R.id.ipField);
-        gameConnect.findViewById(R.id.connectButton);
+        ipEntry = findViewById(R.id.ipField);
+        gameConnect = findViewById(R.id.connectButton);
 
         gameConnect.setOnClickListener(new View.OnClickListener() {
             @Override
