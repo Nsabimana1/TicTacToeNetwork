@@ -1,6 +1,4 @@
-package peertopeernetworking;
-
-import android.util.Log;
+package com.example.myapplication.peertopeernetworking;
 
 import java.io.BufferedReader;
 import java.io.IOException;

@@ -16,8 +16,8 @@
 
             </intent-filter>
         </activity>
-        <activity android:name=".hostingGameActivity" />
-        <activity android:name=".joiningGameActivity" />
+        <activity android:name=".HostingGameActivity" />
+        <activity android:name=".JoiningGameActivity" />
     </application>
 
 </manifest>

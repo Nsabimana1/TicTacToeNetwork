@@ -1,4 +1,4 @@
-package peertopeernetworking;
+package com.example.myapplication.peertopeernetworking;
 
 /**
  * Created by gabriel on 2/15/19.

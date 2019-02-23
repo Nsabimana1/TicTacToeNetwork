@@ -22,7 +22,7 @@ public class OpeningActivity extends AppCompatActivity {
         openJoinActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent NewRecipeIntent = new Intent(OpeningActivity.this, joiningGameActivity.class);
+                Intent NewRecipeIntent = new Intent(OpeningActivity.this, JoiningGameActivity.class);
                 startActivity(NewRecipeIntent);
             }
         } );
@@ -30,7 +30,7 @@ public class OpeningActivity extends AppCompatActivity {
         openHostActivity.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ShoppingListIntent = new Intent(OpeningActivity.this, hostingGameActivity.class);
+                Intent ShoppingListIntent = new Intent(OpeningActivity.this, HostingGameActivity.class);
                 startActivity(ShoppingListIntent);
             }
         } );

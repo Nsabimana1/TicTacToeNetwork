@@ -1,4 +1,4 @@
-package peertopeernetworking;
+package com.example.myapplication.peertopeernetworking;
 
 import java.io.BufferedReader;
 import java.io.IOException;

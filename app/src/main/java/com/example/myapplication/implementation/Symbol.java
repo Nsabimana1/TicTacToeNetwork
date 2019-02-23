@@ -1,4 +1,4 @@
-package implementation;
+package com.example.myapplication.implementation;
 
 public enum Symbol {
     X {

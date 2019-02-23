@@ -1,4 +1,4 @@
-package peertopeernetworking;
+package com.example.myapplication.peertopeernetworking;
 
 import android.app.AlertDialog;
 import android.content.Context;

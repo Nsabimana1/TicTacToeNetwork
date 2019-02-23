@@ -1,14 +1,10 @@
-package peertopeernetworking;
+package com.example.myapplication.peertopeernetworking;
 
 /**
  * Created by gabriel on 2/15/19.
  */
-import android.util.Log;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
