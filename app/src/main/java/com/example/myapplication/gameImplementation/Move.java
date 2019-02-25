@@ -12,8 +12,8 @@ public class Move {
 
 
     //TODO
+    @Override
     public String toString() {
-        return "";
+        return coord.toString()+"@"+coord.toString();
     }
-
 }
