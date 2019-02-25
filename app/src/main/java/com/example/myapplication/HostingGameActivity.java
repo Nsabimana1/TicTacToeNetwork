@@ -31,6 +31,8 @@ public class HostingGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_hosting_game);
         hostIpAddress = getIntent().getStringExtra(JoiningGameActivity.hostIpAddress);
         setComponents();
+        setupServer();
+        setUpClient();
     }
 
 
