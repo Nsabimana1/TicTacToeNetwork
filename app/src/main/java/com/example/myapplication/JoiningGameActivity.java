@@ -43,7 +43,7 @@ public class JoiningGameActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if(!ipEntry.getText().toString().equals("")){
                     Intent proceeding_To_Game_Screen = new Intent(JoiningGameActivity.this, HostingGameActivity.class);
-                    proceeding_To_Game_Screen.putExtra(hostIpAddress, ipEntry.toString());
+                    proceeding_To_Game_Screen.putExtra(hostIpAddress, ipEntry.getText().toString());
                     startActivity(proceeding_To_Game_Screen);
                     finish();
                 }else{

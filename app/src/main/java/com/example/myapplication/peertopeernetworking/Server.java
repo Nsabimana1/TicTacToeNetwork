@@ -36,6 +36,7 @@ public class Server {
 
     public SocketEchoThread listenOnce() throws IOException {
         Socket s = accepter.accept();
+        Log.i(Server.class.getName(), "Received socket from: " + s.getInetAddress().toString());
         SocketEchoThread echoer = new SocketEchoThread(s, listeners);
         return echoer;
     }
