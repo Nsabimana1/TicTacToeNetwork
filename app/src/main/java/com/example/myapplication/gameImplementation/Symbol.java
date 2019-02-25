@@ -1,4 +1,4 @@
-package com.example.myapplication.implementation;
+package com.example.myapplication.gameImplementation;
 
 public enum Symbol {
     X {

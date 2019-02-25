@@ -1,4 +1,4 @@
-package com.example.myapplication.implementation;
+package com.example.myapplication.gameImplementation;
 
 public class Move {
     private Coord coord;
@@ -12,8 +12,8 @@ public class Move {
 
 
     //TODO
+    @Override
     public String toString() {
-        return "";
+        return coord.toString()+"@"+coord.toString();
     }
-
 }
