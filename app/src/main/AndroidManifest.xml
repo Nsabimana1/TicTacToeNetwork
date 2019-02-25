@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.myapplication">
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"654
-        android:label="@3astring/app_name"
+        android:icon="@mipmap/ic_launcher"
+        android:label="TicTacToe2"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -16,6 +16,7 @@
 
             </intent-filter>
         </activity>
+
         <activity android:name=".HostingGameActivity" />
         <activity android:name=".JoiningGameActivity" />
     </application>
