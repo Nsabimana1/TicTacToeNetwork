@@ -22,16 +22,25 @@ public class TicTacToeGame {
 
     //TODO
     public void receiveMoveString(String moveString) {
-
+        Move receivedMove = null;
+        try {
+            receivedMove = moveParser.parseStringToMove(moveString);
+            makeMove(receivedMove);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
-    //TODO
-    private void parseMoveString() {
-
-    }
 
     //TODO
     private boolean makeMove(Move move) {
-        return true;
+        boolean b;
+        if(move.toString().equals(recentMove.toString())) {
+            b=false;
+        } else {
+            b=false;
+        }
+
+        return b;
     }
 }

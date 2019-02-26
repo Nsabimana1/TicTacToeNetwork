@@ -8,12 +8,10 @@ public class MoveParser {
 
     }
 
-    //TODO
     public String parseMoveToString(Move move) {
         return move.toString();
     }
 
-    //TODO
     public Move parseStringToMove(String moveString) throws Exception {
         Move outMove = null;
         String symbolString = moveString.substring(0,moveString.indexOf('@'));
@@ -25,8 +23,6 @@ public class MoveParser {
                 outMove = new Move(symbol, coord);
                 break;
             }
-
         return outMove;
     }
-
 }
