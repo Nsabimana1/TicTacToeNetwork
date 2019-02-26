@@ -1,12 +1,11 @@
 package com.example.myapplication.gameImplementation;
 
-import java.util.ArrayList;
-
 public class Board {
-    Symbol[][] boardArray;
-    int m,n;
     //m=columns or X length
     //n=rows or Y length
+    private Symbol[][] boardArray;
+    private int m,n;
+
     public Board(int m, int n) {
         this.m=m;
         this.n=n;
@@ -14,16 +13,56 @@ public class Board {
         resetBoard();
     }
 
-    private boolean makeMove(Move move) {
-        
+    public boolean makeMove(Move move) {
+        if(this.getSymbolAt(move.getCoord()) == Symbol.BLANK) {
+            this.setSymbolAt(move.getSymbol(), move.getCoord());
+            return true;
+        }
         return false;
     }
 
+
     private void resetBoard() {
-        for(Symbol[] rows: boardArray) {
-            for(Symbol symbol: rows) {
-                symbol = Symbol.BLANK;
+        for(int x = 0; x<m; x++) {
+            for(int y = 0; y<n; y++) {
+                boardArray[x][y] = Symbol.BLANK;
             }
         }
+    }
+
+    private Symbol getSymbolAt(Coord coord) {
+        if(coord.getX()<m && coord.getY()<n) {
+            return boardArray[coord.getX()][coord.getY()];
+        } else {
+            return null;
+        }
+    }
+    private void setSymbolAt(Symbol symbol, Coord coord) {
+        if(coord.getX()<m && coord.getY()<n) {
+            boardArray[coord.getX()][coord.getY()] = symbol;
+        }
+    }
+
+    //Getter Methods
+    public Symbol[][] getBoardArray() {
+        return boardArray;
+    }
+    public int getM() {
+        return m;
+    }
+    public int getN() {
+        return n;
+    }
+
+    @Override
+    public String toString() {
+        String out = "";
+        for(int x = 0; x<m; x++) {
+            for(int y = 0; y<n; y++) {
+                out = out + boardArray[x][y].toString();
+            }
+            out = out + "\n";
+        }
+        return out;
     }
 }
