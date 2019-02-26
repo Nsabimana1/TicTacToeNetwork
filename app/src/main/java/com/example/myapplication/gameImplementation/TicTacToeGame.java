@@ -10,8 +10,13 @@ public class TicTacToeGame {
 
 
     //TODO
-    public String makeMoveString(Move move) {
-        return moveParser.parseMoveToString(move);
+    public String getMoveString() {
+        return moveParser.parseMoveToString(new Move(new Coord(1,1), Symbol.X));
+    }
+
+    //TODO
+    public void receiveMoveString(String moveString) {
+
     }
 
     //TODO
