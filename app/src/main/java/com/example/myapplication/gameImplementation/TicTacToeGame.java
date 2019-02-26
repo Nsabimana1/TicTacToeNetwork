@@ -4,7 +4,7 @@ public class TicTacToeGame {
 
     private MoveParser moveParser;
     private Board board;
-    private Move recentMove = null;
+    private Move recentMove = new Move(Symbol.BLANK, new Coord(0,0));
 
     public TicTacToeGame() {
         board= new Board(3,3);
@@ -17,7 +17,7 @@ public class TicTacToeGame {
 
     //TODO
     public String getMoveString() {
-        return moveParser.parseMoveToString(new Move(Symbol.X, new Coord(1,1)));
+        return moveParser.parseMoveToString(recentMove);
     }
 
     //TODO
