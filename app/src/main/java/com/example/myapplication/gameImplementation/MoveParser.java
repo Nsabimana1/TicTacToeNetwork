@@ -16,6 +16,7 @@ public class MoveParser {
     //TODO
     public Move parseStringToMove(String moveString) throws Exception {
         String symbolString = moveString.substring(0,moveString.indexOf('@'));
+        String firstCoord = moveString.substring(moveString.indexOf('@'), moveString.indexOf('@'));
         if(0<moveString.indexOf('@')&&moveString.indexOf('@')<moveString.indexOf(',')) {
 
         }

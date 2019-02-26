@@ -8,7 +8,6 @@ public class TicTacToeGame {
         moveParser = new MoveParser();
     }
 
-
     //TODO
     public String getMoveString() {
         return moveParser.parseMoveToString(new Move(new Coord(1,1), Symbol.X));
@@ -20,7 +19,12 @@ public class TicTacToeGame {
     }
 
     //TODO
-    private boolean makeMove() {
+    private void parseMoveString() {
+
+    }
+
+    //TODO
+    private boolean makeMove(Move move) {
         return true;
     }
 }

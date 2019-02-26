@@ -16,4 +16,12 @@ public class Move {
     public String toString() {
         return coord.toString()+"@"+coord.toString();
     }
+
+    //Getter Methods
+    public Coord getCoord() {
+        return coord;
+    }
+    public Symbol getSymbol() {
+        return symbol;
+    }
 }
