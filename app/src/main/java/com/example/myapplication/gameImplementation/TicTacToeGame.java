@@ -15,8 +15,8 @@ public class TicTacToeGame {
     }
 
     //TODO
-    public void recieveMoveString(String moveString) {
-        
+    public void receiveMoveString(String moveString) {
+
     }
 
     //TODO
