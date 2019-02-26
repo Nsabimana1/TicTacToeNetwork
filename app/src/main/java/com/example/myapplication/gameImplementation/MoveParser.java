@@ -14,15 +14,12 @@ public class MoveParser {
     }
 
     //TODO
-    public Move parseStringToMove(String moveString) {
-        try {
-            String symbolString = moveString.substring(0,moveString.indexOf('@'));
-            if(0<moveString.indexOf('@')&&moveString.indexOf('@')<moveString.indexOf(',')) {
-
-            }
-        } catch (Exception e){
+    public Move parseStringToMove(String moveString) throws Exception {
+        String symbolString = moveString.substring(0,moveString.indexOf('@'));
+        if(0<moveString.indexOf('@')&&moveString.indexOf('@')<moveString.indexOf(',')) {
 
         }
+
         return null;
     }
 
