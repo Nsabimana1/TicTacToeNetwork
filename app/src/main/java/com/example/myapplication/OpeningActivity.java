@@ -8,18 +8,18 @@ import android.widget.Button;
 
 public class OpeningActivity extends AppCompatActivity {
 
-    private Button openJoinActivity;
-    private Button openHostActivity;
+    private Button connect;
+    private Button enterGame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opening);
 
-        openJoinActivity = findViewById(R.id.joinButton);
-        openHostActivity = findViewById(R.id.hostButton);
+        connect = findViewById(R.id.connectButton);
+        enterGame = findViewById(R.id.gameButton);
 
-        openJoinActivity.setOnClickListener(new View.OnClickListener() {
+        connect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent NewRecipeIntent = new Intent(OpeningActivity.this, JoiningGameActivity.class);
@@ -27,7 +27,7 @@ public class OpeningActivity extends AppCompatActivity {
             }
         } );
 
-        openHostActivity.setOnClickListener(new View.OnClickListener() {
+        enterGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent ShoppingListIntent = new Intent(OpeningActivity.this, HostingGameActivity.class);
