@@ -15,12 +15,17 @@ public class TicTacToeGame {
         moveParser = new MoveParser();
     }
 
+    //TODO
+    public void makeNewMove(Move move) {
+
+    }
+
     public String getMoveString() {
         return moveParser.parseMoveToString(recentMove);
     }
 
     //TODO
-    public void receiveMoveString(String moveString) {
+    public void parseMoveString(String moveString) {
         Move receivedMove = null;
         try {
             receivedMove = moveParser.parseStringToMove(moveString);

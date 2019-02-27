@@ -38,7 +38,7 @@ public class HostingGameActivity extends AppCompatActivity {
 
         TicTacToeGame ticTacToeGame = new TicTacToeGame();
         String moveFromLocalPlayer = ticTacToeGame.getMoveString();
-        ticTacToeGame.receiveMoveString(receivedMoveFromTheNetwork);
+        ticTacToeGame.parseMoveString(receivedMoveFromTheNetwork);
     }
 
 
