@@ -15,7 +15,6 @@ public class TicTacToeGame {
         moveParser = new MoveParser();
     }
 
-    //TODO
     public String getMoveString() {
         return moveParser.parseMoveToString(recentMove);
     }
@@ -25,7 +24,7 @@ public class TicTacToeGame {
         Move receivedMove = null;
         try {
             receivedMove = moveParser.parseStringToMove(moveString);
-            makeMove(receivedMove);
+            boolean moveMade = makeMove(receivedMove);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -40,7 +39,6 @@ public class TicTacToeGame {
         } else {
             b=false;
         }
-
         return b;
     }
 }
