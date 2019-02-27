@@ -15,11 +15,6 @@ public class TicTacToeGame {
         moveParser = new MoveParser();
     }
 
-    //TODO
-    public void makeNewMove(Move move) {
-
-    }
-
     public String getMoveString() {
         return moveParser.parseMoveToString(recentMove);
     }
