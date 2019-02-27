@@ -1,11 +1,12 @@
 package com.example.myapplication.gameImplementation;
 
 public class Move {
-    private Coord coord;
+
     private Symbol symbol;
+    private Coord coord;
 
     //TODO
-    public Move(Coord coord, Symbol symbol) {
+    public Move(Symbol symbol, Coord coord) {
         this.symbol = symbol;
         this.coord = coord;
     }
@@ -14,6 +15,14 @@ public class Move {
     //TODO
     @Override
     public String toString() {
-        return coord.toString()+"@"+coord.toString();
+        return symbol.toString()+"@"+coord.toString();
+    }
+
+    //Getter Methods
+    public Symbol getSymbol() {
+        return symbol;
+    }
+    public Coord getCoord() {
+        return coord;
     }
 }
