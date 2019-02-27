@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-<<<<<<< HEAD
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -39,17 +38,6 @@ public class OpeningActivity extends AppCompatActivity {
     public static String connectionMessage = "letUSConnect";
     public static final String hostIpAddress = "connectedIpAddress";
     public static final String myLocalIpAddress = "MyIpAddress";
-=======
-import android.widget.TextView;
-import android.widget.Toast;
-
-public class OpeningActivity extends AppCompatActivity {
-
-    private Button connect;
-    private Button enterGame;
-    private TextView userIPAddress;
-    private TextView otherIPAddress;
->>>>>>> e48f0da035885f07f3a9d9d9902f3a14e3b0f7c9
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +68,6 @@ public class OpeningActivity extends AppCompatActivity {
         enterGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-<<<<<<< HEAD
                 if (connectionInitiator.isConnected()) {
                     Intent proceeding_To_Game_Screen = new Intent(OpeningActivity.this, HostingGameActivity.class);
                     proceeding_To_Game_Screen.putExtra(hostIpAddress, connectedIpAddress);
@@ -89,10 +76,7 @@ public class OpeningActivity extends AppCompatActivity {
                 } else {
                     displayToast("Still waiting for connection");
                 }
-=======
-
->>>>>>> e48f0da035885f07f3a9d9d9902f3a14e3b0f7c9
-            }
+           }
         });
 
 
@@ -131,13 +115,8 @@ public class OpeningActivity extends AppCompatActivity {
     private void setupClient() {
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
-<<<<<<< HEAD
             public void onClick(View view) {
                 send("I want to connect", OtherPlayerIpEntry.getText().toString(), Server.APP_PORT);
-=======
-            public void onClick(View v) {
-
->>>>>>> e48f0da035885f07f3a9d9d9902f3a14e3b0f7c9
             }
         });
     }
@@ -224,14 +203,6 @@ public class OpeningActivity extends AppCompatActivity {
 //            displayToast("You have not received a connection request");
 //        }
 //    }
-
-    public void displayToast(String message){
-        Context context = getApplicationContext();
-        CharSequence text = message;
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
-    }
 
     public void displayToast(String message){
         Context context = getApplicationContext();
