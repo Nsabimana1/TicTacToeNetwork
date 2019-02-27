@@ -19,6 +19,7 @@ public class Server {
 
     private ServerSocket accepter;
     private ArrayList<ServerListener> listeners = new ArrayList<>();
+    private String incomingIpAddress;
 
     public Server() throws IOException {
         accepter = new ServerSocket(APP_PORT);
@@ -36,8 +37,12 @@ public class Server {
 
     public SocketEchoThread listenOnce() throws IOException {
         Socket s = accepter.accept();
-        Log.i(Server.class.getName(), "Received socket from: " + s.getInetAddress().toString());
+        incomingIpAddress = s.getInetAddress().toString();
         SocketEchoThread echoer = new SocketEchoThread(s, listeners);
         return echoer;
+    }
+
+    public String getIncomingIpAddress() {
+        return incomingIpAddress;
     }
 }

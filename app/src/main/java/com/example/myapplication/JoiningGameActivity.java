@@ -53,7 +53,6 @@ public class JoiningGameActivity extends AppCompatActivity {
         } );
     }
 
-
     public void displayToast(String message){
         Context context = getApplicationContext();
         CharSequence text = message;
@@ -61,4 +60,5 @@ public class JoiningGameActivity extends AppCompatActivity {
         Toast toast = Toast.makeText(context, text, duration);
         toast.show();
     }
+
 }
