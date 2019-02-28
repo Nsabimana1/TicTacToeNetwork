@@ -26,6 +26,19 @@ public class HostingGameActivity extends AppCompatActivity {
     private TextView myIPView;
     private TextView oponentIPView;
     private String receivedMoveFromTheNetwork = "" ;
+
+    //board buttons
+    private Button boardButton00;
+    private Button boardButton01;
+    private Button boardButton02;
+    private Button boardButton10;
+    private Button boardButton11;
+    private Button boardButton12;
+    private Button boardButton20;
+    private Button boardButton21;
+    private Button boardButton22;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,6 +66,17 @@ public class HostingGameActivity extends AppCompatActivity {
         oponentIPView = findViewById(R.id.oponentIP_View);
         myIPView.setText(homeIpAddress);
         oponentIPView.setText(connectedIpAddress);
+
+        //setting board components
+        boardButton00 = findViewById(R.id.button00);
+        boardButton01 = findViewById(R.id.button01);
+        boardButton02 = findViewById(R.id.button02);
+        boardButton10 = findViewById(R.id.button10);
+        boardButton11 = findViewById(R.id.button11);
+        boardButton12 = findViewById(R.id.button12);
+        boardButton20 = findViewById(R.id.button20);
+        boardButton21 = findViewById(R.id.button21);
+        boardButton22 = findViewById(R.id.button22);
     }
 
 
