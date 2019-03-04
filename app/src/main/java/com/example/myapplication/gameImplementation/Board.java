@@ -6,14 +6,14 @@ public class Board {
     private Symbol[][] boardArray;
     private int m,n;
 
-    public Board(int m, int n) {
+    Board(int m, int n) {
         this.m=m;
         this.n=n;
         boardArray = new Symbol[m][n];
         resetBoard();
     }
 
-    public boolean makeMove(Move move) {
+    boolean makeMove(Move move) {
         if(this.getSymbolAt(move.getCoord()) == Symbol.BLANK) {
             this.setSymbolAt(move.getSymbol(), move.getCoord());
             return true;
@@ -56,13 +56,12 @@ public class Board {
 
     @Override
     public String toString() {
-        String out = "";
+        StringBuilder out = new StringBuilder();
         for(int x = 0; x<m; x++) {
-            for(int y = 0; y<n; y++) {
-                out = out + boardArray[x][y].toString();
-            }
-            out = out + "\n";
+            for(int y = 0; y<n; y++)
+                out.append(boardArray[x][y].toString());
+            out.append("\n");
         }
-        return out;
+        return out.toString();
     }
 }

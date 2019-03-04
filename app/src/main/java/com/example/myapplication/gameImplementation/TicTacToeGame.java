@@ -1,5 +1,7 @@
 package com.example.myapplication.gameImplementation;
 
+import android.widget.Toast;
+
 public class TicTacToeGame {
 
     private MoveParser moveParser;
@@ -19,23 +21,26 @@ public class TicTacToeGame {
         return moveParser.parseMoveToString(recentMove);
     }
 
-    //TODO
-    public void parseMoveString(String moveString) {
-        Move receivedMove = null;
+    public boolean parseMoveString(String moveString) {
         try {
-            receivedMove = moveParser.parseStringToMove(moveString);
-            boolean moveMade = makeMove(receivedMove);
+            Move receivedMove = moveParser.parseStringToMove(moveString);
+            return makeMove(receivedMove);
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return false;
     }
 
 
-    //TODO
     private boolean makeMove(Move move) {
         boolean b;
         if(move.toString().equals(recentMove.toString())) {
-            b=false;
+            if(move.toString().equals(recentMove.toString())){
+                b=false;
+            } else {
+                b = board.makeMove(move);
+                recentMove = move;
+            }
         } else {
             b=false;
         }
