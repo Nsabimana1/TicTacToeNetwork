@@ -17,11 +17,21 @@ public class Server {
 
     public static final int APP_PORT = 8888;
 
+    private static Server instance;
+
+    public static Server get() throws IOException {
+        if (instance == null) {
+            instance = new Server();
+        }
+        return instance;
+    }
+
     private ServerSocket accepter;
     private ArrayList<ServerListener> listeners = new ArrayList<>();
+
     private String incomingIpAddress;
 
-    public Server() throws IOException {
+    private Server() throws IOException {
         accepter = new ServerSocket(APP_PORT);
     }
 

@@ -33,7 +33,7 @@ public class OpeningActivity extends AppCompatActivity {
     private EditText OtherPlayerIpEntry;
     private String otherPlayerIp;
     private Button acceptConnButton;
-    private Server s;
+    private Server server;
 
     public static String connectionMessage = "letUSConnect";
     public static final String hostIpAddress = "connectedIpAddress";
@@ -49,8 +49,6 @@ public class OpeningActivity extends AppCompatActivity {
         setupClient();
 
         setupServer();
-
-//        connectedBack();
 
         acceptConnButton.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -78,17 +76,6 @@ public class OpeningActivity extends AppCompatActivity {
                 }
            }
         });
-
-
-//        enterGameButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent NewRecipeIntent = new Intent(OpeningActivity.this, JoiningGameActivity.class);
-//                startActivity(NewRecipeIntent);
-////                Intent ShoppingListIntent = new Intent(OpeningActivity.this, HostingGameActivity.class);
-//////                startActivity(ShoppingListIntent);
-//            }
-//        });
     }
 
 
@@ -128,14 +115,14 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    s = new Server();
-                    s.addListener(new ServerListener() {
+                    server = Server.get();
+                    server.addListener(new ServerListener() {
                         @Override
                         public void notifyMessage(String msg) {
                             showIncoming(msg);
                         }
                     });
-                    s.listen();
+                    server.listen();
                 } catch (IOException e) {
                     Log.e(OpeningActivity.class.getName(), "Could not start server");
                 }
@@ -148,12 +135,12 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(!msg.equals("")){
-                    String incomingIP = s.getIncomingIpAddress();
-                    if(incomingIP != null) {
+                    String incomingIP = server.getIncomingIpAddress();
+                    if (incomingIP != null) {
                         displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
                     }
-//                    connectedIpView.setText(s.getIncomingIpAddress());
                 }
+//                    connectedIpView.setText(server.getIncomingIpAddress());
             }
         });
     }
@@ -190,19 +177,6 @@ public class OpeningActivity extends AppCompatActivity {
         acceptConnButton.setEnabled(true);
     }
 
-
-//    public void connectedBack(){
-//        if(!connectedIpAddress.equals("")) {
-//            acceptConnButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    send("I want to connect", connectedIpAddress, Server.APP_PORT);
-//                }
-//            });
-//        }else {
-//            displayToast("You have not received a connection request");
-//        }
-//    }
 
     public void displayToast(String message){
         Context context = getApplicationContext();

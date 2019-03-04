@@ -96,7 +96,7 @@ public class HostingGameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Server server = new Server();
+                    Server server = Server.get();
                     server.addListener(new ServerListener() {
                         @Override
                         public void notifyMessage(String msg) {
