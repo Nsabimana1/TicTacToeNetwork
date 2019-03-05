@@ -22,7 +22,7 @@ public class TicTacToeGame {
     public boolean parseMoveString(String moveString) {
         try {
             Move receivedMove = moveParser.parseStringToMove(moveString);
-            return makeMove(receivedMove);
+            //return makeMove(receivedMove);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -31,18 +31,18 @@ public class TicTacToeGame {
 
 
     public boolean makeMove(Move move) {
-        boolean b;
+        boolean moveMade;
         if(move.toString().equals(recentMove.toString())) {
-            if(move.toString().equals(recentMove.toString())){
-                b=false;
-            } else {
-                b = board.makeMove(move);
-                recentMove = move;
-            }
+            moveMade =  false;
         } else {
-            b=false;
+            if(board.makeMove(move)) {
+                recentMove = move;
+                moveMade =  true;
+            } else {
+                moveMade = false;
+            }
         }
-        return b;
+        return moveMade;
     }
 
     public Move getRecentMove() {return recentMove;}
