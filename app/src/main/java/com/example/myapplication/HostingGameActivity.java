@@ -217,9 +217,9 @@ public class HostingGameActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                ticTacToeGame.parseMoveString(recMove);
+                String status = ticTacToeGame.parseMoveString(recMove);
+                receivedMove.setText(status);
                 updateBoard();
-                receivedMove.setText(recMove);
             }
         });
     }
