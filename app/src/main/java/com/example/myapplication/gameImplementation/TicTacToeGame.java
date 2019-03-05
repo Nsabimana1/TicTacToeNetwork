@@ -21,13 +21,13 @@ public class TicTacToeGame {
             Move receivedMove = moveParser.parseStringToMove(moveString);
             boolean moveMade =  makeMove(receivedMove);
             if(moveMade) {
-                status = moveString + " parsed and made";
+                status = moveString;
             } else {
-                status = moveString + " could not be made";
+                status = "MoveError";
             }
         } catch (Exception e) {
             e.printStackTrace();
-            status = "Error when parsing " + moveString;
+            status = "ParseError" + moveString;
         }
         return status;
         //return false;
