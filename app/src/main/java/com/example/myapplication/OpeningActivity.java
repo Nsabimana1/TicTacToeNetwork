@@ -141,6 +141,7 @@ public class OpeningActivity extends AppCompatActivity {
             public void run() {
                 if(!msg.equals(" ")){
                     Log.e(OpeningActivity.class.getName(), "sent message is: " + msg);
+                    Log.e(OpeningActivity.class.getName(), "the message to compare is: " + incomingMessage);
                     if(!msg.toString().equals(incomingMessage)){
                         incomingMessage = msg;
                         try {
@@ -237,7 +238,9 @@ public class OpeningActivity extends AppCompatActivity {
     public void displayConnectedIp(String connectedIpAddress){
 
         this.connectedIpAddress = connectedIpAddress;
-        showSimpleDialog();
+        if(!connectedIpAddress.equals(" ")){
+            showSimpleDialog();
+        }
 //        connectionInitiator.setConnectedIP(connectedIpAddress);
 //        connectionInitiator.initiateConnection();
 //        connectedIpView.setText(connectedIpAddress);

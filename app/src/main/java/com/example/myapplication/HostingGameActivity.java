@@ -68,11 +68,11 @@ public class HostingGameActivity extends AppCompatActivity {
         setUpClient();
 
         ticTacToeGame = new TicTacToeGame();
-        String moveFromLocalPlayer = ticTacToeGame.getMoveString();
+//        String moveFromLocalPlayer = ticTacToeGame.getMoveString();
 
-        ticTacToeGame.parseMoveString(moveFromLocalPlayer);
-        localMove = moveFromLocalPlayer;
-        ticTacToeGame.parseMoveString(receivedMoveFromTheNetwork);
+//        ticTacToeGame.parseMoveString(moveFromLocalPlayer);
+//        localMove = moveFromLocalPlayer;
+//        ticTacToeGame.parseMoveString(receivedMoveFromTheNetwork);
 
     }
 
