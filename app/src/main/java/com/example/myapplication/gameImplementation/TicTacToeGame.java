@@ -15,14 +15,22 @@ public class TicTacToeGame {
         return moveParser.parseMoveToString(recentMove);
     }
 
-    public boolean parseMoveString(String moveString) {
+    public String parseMoveString(String moveString) {
+        String status = "";
         try {
             Move receivedMove = moveParser.parseStringToMove(moveString);
-            return makeMove(receivedMove);
+            boolean moveMade =  makeMove(receivedMove);
+            if(moveMade) {
+                status = moveString + " parsed and made";
+            } else {
+                status = moveString + " could not be made";
+            }
         } catch (Exception e) {
             e.printStackTrace();
+            status = "Error when parsing " + moveString;
         }
-        return false;
+        return status;
+        //return false;
     }
 
     public boolean makeMove(Move move) {
