@@ -33,6 +33,7 @@ public class HostingGameActivity extends AppCompatActivity {
     private String localMove;
     private TicTacToeGame ticTacToeGame;
     private Symbol symbol = Symbol.X;
+    private String localPlayerSymbol;
 
     //board buttons
     //00 10 20
@@ -56,6 +57,12 @@ public class HostingGameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_hosting_game);
         connectedIpAddress = getIntent().getStringExtra(OpeningActivity.hostIpAddress);
         homeIpAddress = getIntent().getStringExtra(OpeningActivity.myLocalIpAddress);
+        localPlayerSymbol = getIntent().getStringExtra(OpeningActivity.localMoveSymbol);
+        if (localPlayerSymbol.equals("O")){
+            symbol = Symbol.O;
+        }else {
+            symbol = Symbol.X;
+        }
         setComponents();
         setupServer();
         setUpClient();
@@ -159,6 +166,8 @@ public class HostingGameActivity extends AppCompatActivity {
         if(moveMade) {
             status = "Move made.";
             String moveString = ticTacToeGame.getMoveString();
+            //sending the move
+            sendMove(connectedIpAddress, Server.APP_PORT, moveString);
             //TODO
             //Innocent: Send moveString to other player
 
@@ -187,13 +196,14 @@ public class HostingGameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Server server = new Server();
-                    server.addListener(new ServerListener() {
+
+                    Server.get().addListener(new ServerListener() {
                         @Override
                         public void notifyMessage(String msg) {
                             displayReceivedMove(msg);
                         }
                     });
+
                 } catch (IOException e) {
                     Log.e(HostingGameActivity.class.getName(), "Could not start server");
                 }
@@ -207,6 +217,8 @@ public class HostingGameActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                ticTacToeGame.parseMoveString(recMove);
+//                updateBoard();
                 receivedMove.setText(recMove);
             }
         });

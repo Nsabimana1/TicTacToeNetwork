@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.gameImplementation.Symbol;
 import com.example.myapplication.peertopeernetworking.Communication;
 import com.example.myapplication.peertopeernetworking.ConnectionInitiator;
 import com.example.myapplication.peertopeernetworking.Server;
@@ -33,11 +34,12 @@ public class OpeningActivity extends AppCompatActivity {
     private EditText OtherPlayerIpEntry;
     private String otherPlayerIp;
     private Button acceptConnButton;
-    private Server server;
+    private String myMoveSymbol = "X";
 
     public static String connectionMessage = "letUSConnect";
     public static final String hostIpAddress = "connectedIpAddress";
     public static final String myLocalIpAddress = "MyIpAddress";
+    public static final String localMoveSymbol = "initialMoveSymbol";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +56,7 @@ public class OpeningActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     if(!connectedIpAddress.equals("")) {
+                        myMoveSymbol = "O";
                         send("I want to connect", connectedIpAddress, Server.APP_PORT);
                     }else {
                             displayToast("You have not received a connection request");
@@ -70,6 +73,7 @@ public class OpeningActivity extends AppCompatActivity {
                     Intent proceeding_To_Game_Screen = new Intent(OpeningActivity.this, HostingGameActivity.class);
                     proceeding_To_Game_Screen.putExtra(hostIpAddress, connectedIpAddress);
                     proceeding_To_Game_Screen.putExtra(myLocalIpAddress, localIpAddress);
+                    proceeding_To_Game_Screen.putExtra(localMoveSymbol, myMoveSymbol);
                     startActivity(proceeding_To_Game_Screen);
                 } else {
                     displayToast("Still waiting for connection");
@@ -115,14 +119,13 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    server = new Server();
-                    server.addListener(new ServerListener() {
+                    Server.get().addListener(new ServerListener() {
                         @Override
                         public void notifyMessage(String msg) {
                             showIncoming(msg);
                         }
                     });
-                    server.listen();
+                    Server.get().listen();
                 } catch (IOException e) {
                     Log.e(OpeningActivity.class.getName(), "Could not start server");
                 }
@@ -135,9 +138,13 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(!msg.equals(" ")){
-                    String incomingIP = server.getIncomingIpAddress();
-                    if (incomingIP != null) {
-                        displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
+                    try {
+                        String incomingIP = Server.get().getIncomingIpAddress();
+                        if (incomingIP != null) {
+                            displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
+                        }
+                    }catch (IOException e) {
+                        Log.e(OpeningActivity.class.getName(), "OOps, exception! " + e.getMessage());
                     }
 
 //                    if (incomingIP != null) {
