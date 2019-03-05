@@ -1,10 +1,15 @@
 package com.example.myapplication.gameImplementation;
 
+import android.widget.Button;
+
+import java.util.ArrayList;
+
 public class TicTacToeGame {
 
     private MoveParser moveParser;
     private Board board;
     private Move recentMove = new Move(Symbol.BLANK, new Coord(0,0));
+    private ArrayList<Button> boardPositions = new ArrayList<>();
 
     public TicTacToeGame() {
         board= new Board(3,3);
@@ -13,6 +18,10 @@ public class TicTacToeGame {
     public TicTacToeGame(int m, int n, int k) {
         board= new Board(m,n);
         moveParser = new MoveParser();
+    }
+
+    public void addButtonPosition(Button buttonPosition){
+        boardPositions.add(buttonPosition);
     }
 
     public String getMoveString() {

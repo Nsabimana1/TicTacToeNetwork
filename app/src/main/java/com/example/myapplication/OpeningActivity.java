@@ -33,7 +33,6 @@ public class OpeningActivity extends AppCompatActivity {
     private EditText OtherPlayerIpEntry;
     private String otherPlayerIp;
     private Button acceptConnButton;
-    private Server server;
 
     public static String connectionMessage = "letUSConnect";
     public static final String hostIpAddress = "connectedIpAddress";
@@ -115,14 +114,13 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    server = Server.get();
-                    server.addListener(new ServerListener() {
+                    Server.get().addListener(new ServerListener() {
                         @Override
                         public void notifyMessage(String msg) {
                             showIncoming(msg);
                         }
                     });
-                    server.listen();
+                    Server.get().listen();
                 } catch (IOException e) {
                     Log.e(OpeningActivity.class.getName(), "Could not start server");
                 }
@@ -135,9 +133,13 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(!msg.equals("")){
-                    String incomingIP = server.getIncomingIpAddress();
-                    if (incomingIP != null) {
-                        displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
+                    try {
+                        String incomingIP = Server.get().getIncomingIpAddress();
+                        if (incomingIP != null) {
+                            displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
+                        }
+                    } catch (IOException e) {
+                        Log.e(OpeningActivity.class.getName(), "OOps, exception! " + e.getMessage());
                     }
                 }
 //                    connectedIpView.setText(server.getIncomingIpAddress());

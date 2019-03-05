@@ -26,6 +26,8 @@ public class HostingGameActivity extends AppCompatActivity {
     private TextView myIPView;
     private TextView oponentIPView;
     private String receivedMoveFromTheNetwork = "" ;
+    private String localMove;
+    private TicTacToeGame ticTacToeGame;
 
     //board buttons
     private Button boardButton00;
@@ -49,10 +51,33 @@ public class HostingGameActivity extends AppCompatActivity {
         setupServer();
         setUpClient();
 
-        TicTacToeGame ticTacToeGame = new TicTacToeGame();
+        ticTacToeGame = new TicTacToeGame();
         String moveFromLocalPlayer = ticTacToeGame.getMoveString();
+
+        ticTacToeGame.parseMoveString(moveFromLocalPlayer);
+        localMove = moveFromLocalPlayer;
         ticTacToeGame.parseMoveString(receivedMoveFromTheNetwork);
+
+        View.OnClickListener positionClicked = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        };
+
+        boardButton00.setOnClickListener(positionClicked);
+        boardButton01.setOnClickListener(positionClicked);
+        boardButton02.setOnClickListener(positionClicked);
+        boardButton10.setOnClickListener(positionClicked);
+        boardButton11.setOnClickListener(positionClicked);
+        boardButton12.setOnClickListener(positionClicked);
+        boardButton20.setOnClickListener(positionClicked);
+        boardButton21.setOnClickListener(positionClicked);
+        boardButton22.setOnClickListener(positionClicked);
+
     }
+
+
 
 
     public void setReceivedMoveFromTheNetwork(String move){
@@ -103,7 +128,6 @@ public class HostingGameActivity extends AppCompatActivity {
                             displayReceivedMove(msg);
                         }
                     });
-                    server.listen();
                 } catch (IOException e) {
                     Log.e(HostingGameActivity.class.getName(), "Could not start server");
                 }
