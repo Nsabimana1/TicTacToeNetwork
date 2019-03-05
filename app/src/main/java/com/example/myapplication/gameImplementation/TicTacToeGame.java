@@ -10,10 +10,6 @@ public class TicTacToeGame {
         board= new Board(3,3);
         moveParser = new MoveParser();
     }
-    public TicTacToeGame(int m, int n, int k) {
-        board= new Board(m,n);
-        moveParser = new MoveParser();
-    }
 
     public String getMoveString() {
         return moveParser.parseMoveToString(recentMove);
@@ -22,13 +18,12 @@ public class TicTacToeGame {
     public boolean parseMoveString(String moveString) {
         try {
             Move receivedMove = moveParser.parseStringToMove(moveString);
-            //return makeMove(receivedMove);
+            return makeMove(receivedMove);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return false;
     }
-
 
     public boolean makeMove(Move move) {
         boolean moveMade;
@@ -45,14 +40,43 @@ public class TicTacToeGame {
         return moveMade;
     }
 
-    private WinState checkRowWin() {
+    public WinState checkWin() {
+        if(checkColumnWin()!=WinState.NO_WIN)
+            return checkColumnWin();
+        else if(checkRowWin()!=WinState.NO_WIN)
+            return checkRowWin();
+        else if(checkDiagWin()!=WinState.NO_WIN)
+            return checkDiagWin();
+        return WinState.NO_WIN;
+    }
 
+    private WinState checkRowWin() {
+        for(int i = 0; i<3;i++) {
+            if(board.getBoardArray()[0][i] == board.getBoardArray()[1][i] && board.getBoardArray()[1][i] == board.getBoardArray()[2][i]) {
+                if(board.getBoardArray()[0][i]!=Symbol.BLANK)
+                    return board.getBoardArray()[0][i].getWinner();
+            }
+        }
         return WinState.NO_WIN;
     }
     private WinState checkColumnWin() {
+        for(int i = 0; i<3;i++) {
+            if(board.getBoardArray()[i][0] == board.getBoardArray()[i][1] && board.getBoardArray()[i][1] == board.getBoardArray()[i][2]) {
+                if(board.getBoardArray()[i][0]!=Symbol.BLANK)
+                    return board.getBoardArray()[i][0].getWinner();
+            }
+        }
         return WinState.NO_WIN;
     }
     private WinState checkDiagWin() {
+        if(board.getBoardArray()[0][0] == board.getBoardArray()[1][1] && board.getBoardArray()[1][1] == board.getBoardArray()[2][2]) {
+            if(board.getBoardArray()[0][0]!=Symbol.BLANK)
+                return board.getBoardArray()[0][0].getWinner();
+        }
+        if(board.getBoardArray()[2][0] == board.getBoardArray()[1][1] && board.getBoardArray()[1][1] == board.getBoardArray()[0][2]) {
+            if(board.getBoardArray()[0][0]!=Symbol.BLANK)
+                return board.getBoardArray()[0][0].getWinner();
+        }
         return WinState.NO_WIN;
     }
 
