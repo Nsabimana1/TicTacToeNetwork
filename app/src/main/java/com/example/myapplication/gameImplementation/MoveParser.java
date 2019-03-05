@@ -1,6 +1,8 @@
 package com.example.myapplication.gameImplementation;
 
 
+import android.util.Log;
+
 public class MoveParser {
 
     //Move Format: <Symbol>@x,y
@@ -14,8 +16,9 @@ public class MoveParser {
     }
 
     public Move parseStringToMove(String moveString) {
+        Log.e("StringParsing", "running parseStringToMove(" + moveString + ")");
         Move outMove = new Move(Symbol.BLANK, new Coord(0,0));
-        if(moveString.charAt(1)=='@') {
+        if(moveString.length() == 5 && moveString.charAt(1)=='@') {
             Symbol moveSymbol=Symbol.BLANK;
             for(Symbol symbol: Symbol.values()) {
                 if(moveString.charAt(0)==symbol.toString().charAt(0)) {

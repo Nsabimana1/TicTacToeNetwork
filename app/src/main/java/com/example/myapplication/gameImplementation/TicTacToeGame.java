@@ -1,5 +1,7 @@
 package com.example.myapplication.gameImplementation;
 
+import android.util.Log;
+
 public class TicTacToeGame {
 
     private MoveParser moveParser;
@@ -16,6 +18,7 @@ public class TicTacToeGame {
     }
 
     public String parseMoveString(String moveString) {
+        Log.e("StringParsing", "running parseMoveString(" + moveString + ")");
         String status = "[PH]";
         Move receivedMove = moveParser.parseStringToMove(moveString);
         boolean moveMade =  makeMove(receivedMove);
