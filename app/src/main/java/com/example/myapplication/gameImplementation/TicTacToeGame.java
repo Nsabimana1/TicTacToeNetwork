@@ -45,6 +45,17 @@ public class TicTacToeGame {
         return moveMade;
     }
 
+    private WinState checkRowWin() {
+
+        return WinState.NO_WIN;
+    }
+    private WinState checkColumnWin() {
+        return WinState.NO_WIN;
+    }
+    private WinState checkDiagWin() {
+        return WinState.NO_WIN;
+    }
+
     public Move getRecentMove() {return recentMove;}
     public Board getBoard() {
         return board;
