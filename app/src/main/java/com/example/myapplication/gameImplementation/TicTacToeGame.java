@@ -1,19 +1,10 @@
 package com.example.myapplication.gameImplementation;
 
-<<<<<<< HEAD
-import android.widget.Button;
-
-import java.util.ArrayList;
-=======
-import android.widget.Toast;
->>>>>>> 0126139d8d48ffeef19aa68f1f0b288bbe9395cb
-
 public class TicTacToeGame {
 
     private MoveParser moveParser;
     private Board board;
     private Move recentMove = new Move(Symbol.BLANK, new Coord(0,0));
-    private ArrayList<Button> boardPositions = new ArrayList<>();
 
     public TicTacToeGame() {
         board= new Board(3,3);
@@ -22,10 +13,6 @@ public class TicTacToeGame {
     public TicTacToeGame(int m, int n, int k) {
         board= new Board(m,n);
         moveParser = new MoveParser();
-    }
-
-    public void addButtonPosition(Button buttonPosition){
-        boardPositions.add(buttonPosition);
     }
 
     public String getMoveString() {
