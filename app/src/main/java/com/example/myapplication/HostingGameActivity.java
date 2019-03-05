@@ -7,7 +7,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.example.myapplication.gameImplementation.Coord;
+import com.example.myapplication.gameImplementation.Move;
+import com.example.myapplication.gameImplementation.Symbol;
 import com.example.myapplication.gameImplementation.TicTacToeGame;
 import com.example.myapplication.peertopeernetworking.Communication;
 import com.example.myapplication.peertopeernetworking.Server;
@@ -24,12 +28,17 @@ public class HostingGameActivity extends AppCompatActivity {
     private TextView receivedMove;
     private EditText moveEntry;
     private TextView myIPView;
-    private TextView oponentIPView;
+    private TextView opponentIPView;
     private String receivedMoveFromTheNetwork = "" ;
     private String localMove;
     private TicTacToeGame ticTacToeGame;
+    private Symbol symbol = Symbol.X;
 
     //board buttons
+    //00 10 20
+    //01 11 21
+    //02 12 22
+
     private Button boardButton00;
     private Button boardButton01;
     private Button boardButton02;
@@ -58,27 +67,7 @@ public class HostingGameActivity extends AppCompatActivity {
         localMove = moveFromLocalPlayer;
         ticTacToeGame.parseMoveString(receivedMoveFromTheNetwork);
 
-        View.OnClickListener positionClicked = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-            }
-        };
-
-        boardButton00.setOnClickListener(positionClicked);
-        boardButton01.setOnClickListener(positionClicked);
-        boardButton02.setOnClickListener(positionClicked);
-        boardButton10.setOnClickListener(positionClicked);
-        boardButton11.setOnClickListener(positionClicked);
-        boardButton12.setOnClickListener(positionClicked);
-        boardButton20.setOnClickListener(positionClicked);
-        boardButton21.setOnClickListener(positionClicked);
-        boardButton22.setOnClickListener(positionClicked);
-
     }
-
-
-
 
     public void setReceivedMoveFromTheNetwork(String move){
         this.receivedMoveFromTheNetwork = move;
@@ -88,21 +77,101 @@ public class HostingGameActivity extends AppCompatActivity {
         moveEntry = findViewById(R.id.moveEntry);
         receivedMove = findViewById(R.id.Recieve_Move);
         myIPView = findViewById(R.id.MyIPAdress_View);
-        oponentIPView = findViewById(R.id.oponentIP_View);
+        opponentIPView = findViewById(R.id.oponentIP_View);
         myIPView.setText(homeIpAddress);
-        oponentIPView.setText(connectedIpAddress);
+        opponentIPView.setText(connectedIpAddress);
 
         //setting board components
-        boardButton00 = findViewById(R.id.button00);
-        boardButton01 = findViewById(R.id.button01);
-        boardButton02 = findViewById(R.id.button02);
-        boardButton10 = findViewById(R.id.button10);
-        boardButton11 = findViewById(R.id.button11);
-        boardButton12 = findViewById(R.id.button12);
-        boardButton20 = findViewById(R.id.button20);
-        boardButton21 = findViewById(R.id.button21);
-        boardButton22 = findViewById(R.id.button22);
+
+        setBoardButtons();
+
+
     }
+
+    private void setBoardButtons() {
+        boardButton00 = findViewById(R.id.button00);
+        boardButton10 = findViewById(R.id.button10);
+        boardButton20 = findViewById(R.id.button20);
+        boardButton01 = findViewById(R.id.button01);
+        boardButton11 = findViewById(R.id.button11);
+        boardButton21 = findViewById(R.id.button21);
+        boardButton02 = findViewById(R.id.button02);
+        boardButton12 = findViewById(R.id.button12);
+        boardButton22 = findViewById(R.id.button22);
+
+        boardButton00.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(0,0);
+            }
+        });
+        boardButton10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(1,0);
+            }
+        });
+        boardButton20.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(2,0);
+            }
+        });
+        boardButton01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(0,1);
+            }
+        });
+        boardButton11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(1,1);
+            }
+        });
+        boardButton21.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(2,1);
+            }
+        });
+        boardButton02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(0,2);
+            }
+        });
+        boardButton12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(1,2);
+            }
+        });
+        boardButton22.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(2,2);
+            }
+        });
+    }
+
+    private void makeMoveAt(int x, int y) {
+        String status = "[PH]";
+        Move move = new Move(symbol, new Coord(x,y));
+        boolean moveMade = ticTacToeGame.makeMove(move);
+        if(moveMade) {
+            status = "Move made.";
+        } else {
+            status = "Move not made.";
+        }
+
+        //TODO
+        //Innocent: Send move to other player
+
+        Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
+        updateBoard();
+    }
+
 
 
     public void setUpClient(){
@@ -167,4 +236,17 @@ public class HostingGameActivity extends AppCompatActivity {
         }.start();
     }
 
+    private void updateBoard() {
+        Symbol[][] boardArray = ticTacToeGame.getBoard().getBoardArray();
+        boardButton00.setText(boardArray[0][0].toString());
+        boardButton10.setText(boardArray[1][0].toString());
+        boardButton20.setText(boardArray[2][0].toString());
+        boardButton01.setText(boardArray[0][1].toString());
+        boardButton11.setText(boardArray[1][1].toString());
+        boardButton21.setText(boardArray[2][1].toString());
+        boardButton02.setText(boardArray[0][2].toString());
+        boardButton12.setText(boardArray[1][2].toString());
+        boardButton22.setText(boardArray[2][2].toString());
+
+    }
 }

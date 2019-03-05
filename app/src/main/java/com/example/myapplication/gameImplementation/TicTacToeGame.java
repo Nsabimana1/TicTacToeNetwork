@@ -30,7 +30,7 @@ public class TicTacToeGame {
     }
 
 
-    private boolean makeMove(Move move) {
+    public boolean makeMove(Move move) {
         boolean b;
         if(move.toString().equals(recentMove.toString())) {
             if(move.toString().equals(recentMove.toString())){
@@ -43,5 +43,13 @@ public class TicTacToeGame {
             b=false;
         }
         return b;
+    }
+
+    public Move getRecentMove() {return recentMove;}
+    public Board getBoard() {
+        return board;
+    }
+    public MoveParser getMoveParser() {
+        return moveParser;
     }
 }
