@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.myapplication.gameImplementation.Coord;
+import com.example.myapplication.gameImplementation.Move;
 import com.example.myapplication.gameImplementation.Symbol;
 import com.example.myapplication.gameImplementation.TicTacToeGame;
 import com.example.myapplication.peertopeernetworking.Communication;
@@ -66,11 +68,6 @@ public class HostingGameActivity extends AppCompatActivity {
         ticTacToeGame.parseMoveString(receivedMoveFromTheNetwork);
 
     }
-
-
-
-
-
 
     public void setReceivedMoveFromTheNetwork(String move){
         this.receivedMoveFromTheNetwork = move;
@@ -159,10 +156,20 @@ public class HostingGameActivity extends AppCompatActivity {
     }
 
     private void makeMoveAt(int x, int y) {
-        String status = "Move made";
+        String status = "[PH]";
+        Move move = new Move(symbol, new Coord(x,y));
+        boolean moveMade = ticTacToeGame.makeMove(move);
+        if(moveMade) {
+            status = "Move made.";
+        } else {
+            status = "Move not made.";
+        }
 
+        //TODO
+        //Innocent: Send move to other player
 
         Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
+        updateBoard();
     }
 
 
@@ -229,4 +236,17 @@ public class HostingGameActivity extends AppCompatActivity {
         }.start();
     }
 
+    private void updateBoard() {
+        Symbol[][] boardArray = ticTacToeGame.getBoard().getBoardArray();
+        boardButton00.setText(boardArray[0][0].toString());
+        boardButton10.setText(boardArray[1][0].toString());
+        boardButton20.setText(boardArray[2][0].toString());
+        boardButton01.setText(boardArray[0][1].toString());
+        boardButton11.setText(boardArray[1][1].toString());
+        boardButton21.setText(boardArray[2][1].toString());
+        boardButton02.setText(boardArray[0][2].toString());
+        boardButton12.setText(boardArray[1][2].toString());
+        boardButton22.setText(boardArray[2][2].toString());
+
+    }
 }
