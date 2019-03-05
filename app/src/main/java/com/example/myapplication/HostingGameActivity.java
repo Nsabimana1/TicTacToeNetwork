@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.gameImplementation.Symbol;
 import com.example.myapplication.gameImplementation.TicTacToeGame;
@@ -104,9 +105,64 @@ public class HostingGameActivity extends AppCompatActivity {
         boardButton00.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //renameNote();
+                makeMoveAt(0,0);
             }
         });
+        boardButton10.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(1,0);
+            }
+        });
+        boardButton20.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(2,0);
+            }
+        });
+        boardButton01.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(0,1);
+            }
+        });
+        boardButton11.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(1,1);
+            }
+        });
+        boardButton21.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(2,1);
+            }
+        });
+        boardButton02.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(0,2);
+            }
+        });
+        boardButton12.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(1,2);
+            }
+        });
+        boardButton22.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                makeMoveAt(2,2);
+            }
+        });
+    }
+
+    private void makeMoveAt(int x, int y) {
+        String status = "Move made";
+
+
+        Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
     }
 
 
