@@ -136,7 +136,9 @@ public class OpeningActivity extends AppCompatActivity {
             public void run() {
                 if(!msg.equals(" ")){
                     String incomingIP = server.getIncomingIpAddress();
-                    displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
+                    if (incomingIP != null) {
+                        displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
+                    }
 
 //                    if (incomingIP != null) {
 //                        displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
