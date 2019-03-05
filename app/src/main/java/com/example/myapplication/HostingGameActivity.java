@@ -82,10 +82,7 @@ public class HostingGameActivity extends AppCompatActivity {
         opponentIPView.setText(connectedIpAddress);
 
         //setting board components
-
         setBoardButtons();
-
-
     }
 
     private void setBoardButtons() {
@@ -161,13 +158,13 @@ public class HostingGameActivity extends AppCompatActivity {
         boolean moveMade = ticTacToeGame.makeMove(move);
         if(moveMade) {
             status = "Move made.";
+            String moveString = ticTacToeGame.getMoveString();
+            //TODO
+            //Innocent: Send moveString to other player
+
         } else {
             status = "Move not made.";
         }
-
-        //TODO
-        //Innocent: Send move to other player
-
         Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
         updateBoard();
     }
