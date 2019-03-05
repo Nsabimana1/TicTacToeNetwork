@@ -16,21 +16,15 @@ public class TicTacToeGame {
     }
 
     public String parseMoveString(String moveString) {
-        String status = "";
-        try {
-            Move receivedMove = moveParser.parseStringToMove(moveString);
-            boolean moveMade =  makeMove(receivedMove);
-            if(moveMade) {
-                status = moveString;
-            } else {
-                status = "MoveError";
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-            status = "ParseError" + moveString;
+        String status = "[PH]";
+        Move receivedMove = moveParser.parseStringToMove(moveString);
+        boolean moveMade =  makeMove(receivedMove);
+        if(moveMade) {
+            status = receivedMove.toString();
+        } else {
+            status = "MoveError";
         }
         return status;
-        //return false;
     }
 
     public boolean makeMove(Move move) {
