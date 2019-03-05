@@ -218,7 +218,7 @@ public class HostingGameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 ticTacToeGame.parseMoveString(recMove);
-//                updateBoard();
+                updateBoard();
                 receivedMove.setText(recMove);
             }
         });
