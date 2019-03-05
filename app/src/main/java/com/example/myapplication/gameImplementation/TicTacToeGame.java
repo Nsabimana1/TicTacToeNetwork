@@ -22,7 +22,7 @@ public class TicTacToeGame {
         if(moveMade) {
             status = receivedMove.toString();
         } else {
-            status = "Move not made";
+            status = "Error";
         }
         return status;
     }
