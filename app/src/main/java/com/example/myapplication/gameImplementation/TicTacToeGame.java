@@ -29,15 +29,19 @@ public class TicTacToeGame {
 
     public boolean makeMove(Move move) {
         boolean moveMade;
-        if(move.toString().equals(recentMove.toString())) {
-            moveMade =  false;
-        } else {
-            if(board.makeMove(move)) {
-                recentMove = move;
-                moveMade =  true;
+        if(checkWin()==WinState.NO_WIN) {
+            if(move.toString().equals(recentMove.toString())) {
+                moveMade =  false;
             } else {
-                moveMade = false;
+                if(board.makeMove(move)) {
+                    recentMove = move;
+                    moveMade =  true;
+                } else {
+                    moveMade = false;
+                }
             }
+        } else {
+            moveMade = false;
         }
         return moveMade;
     }
