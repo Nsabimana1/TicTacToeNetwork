@@ -33,6 +33,7 @@ public class OpeningActivity extends AppCompatActivity {
     private EditText OtherPlayerIpEntry;
     private String otherPlayerIp;
     private Button acceptConnButton;
+    private Server server;
 
     public static String connectionMessage = "letUSConnect";
     public static final String hostIpAddress = "connectedIpAddress";
@@ -114,13 +115,14 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void run() {
                 try {
-                    Server.get().addListener(new ServerListener() {
+                    server = new Server();
+                    server.addListener(new ServerListener() {
                         @Override
                         public void notifyMessage(String msg) {
                             showIncoming(msg);
                         }
                     });
-                    Server.get().listen();
+                    server.listen();
                 } catch (IOException e) {
                     Log.e(OpeningActivity.class.getName(), "Could not start server");
                 }
@@ -132,17 +134,23 @@ public class OpeningActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(!msg.equals("")){
-                    try {
-                        String incomingIP = Server.get().getIncomingIpAddress();
-                        if (incomingIP != null) {
-                            displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
-                        }
-                    } catch (IOException e) {
-                        Log.e(OpeningActivity.class.getName(), "OOps, exception! " + e.getMessage());
-                    }
+                if(!msg.equals(" ")){
+                    String incomingIP = server.getIncomingIpAddress();
+                    displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
+
+//                    if (incomingIP != null) {
+//                        displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
+//                    }
+//                    try {
+//                        String incomingIP = server.getIncomingIpAddress();
+//                        if (incomingIP != null) {
+//                            displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
+//                        }
+//                    } catch (IOException e) {
+//                        Log.e(OpeningActivity.class.getName(), "OOps, exception! " + e.getMessage());
+//                    }
                 }
-//                    connectedIpView.setText(server.getIncomingIpAddress());
+//                    connectedIpView.setText(msg);
             }
         });
     }

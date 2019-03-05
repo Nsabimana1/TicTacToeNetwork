@@ -17,23 +17,23 @@ public class Server {
 
     public static final int APP_PORT = 8888;
 
-    private static Server instance = null;
-
-    public static Server get() throws IOException {
-        Log.i(Server.class.getName(), "Entering Server.get()");
-        if (instance == null) {
-            instance = new Server();
-            Log.i(Server.class.getName(), "Creating Server instance");
-        }
-        return instance;
-    }
+//    private static Server instance = null;
+//
+//    public static Server get() throws IOException {
+//        Log.i(Server.class.getName(), "Entering Server.get()");
+//        if (instance == null) {
+//            instance = new Server();
+//            Log.i(Server.class.getName(), "Creating Server instance");
+//        }
+//        return instance;
+//    }
 
     private ServerSocket accepter;
     private ArrayList<ServerListener> listeners = new ArrayList<>();
 
     private String incomingIpAddress;
 
-    private Server() throws IOException {
+    public Server() throws IOException {
         accepter = new ServerSocket(APP_PORT);
     }
 
