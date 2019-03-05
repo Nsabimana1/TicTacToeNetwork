@@ -1,5 +1,6 @@
 package com.example.myapplication.gameImplementation;
 
+
 public class MoveParser {
 
     //Move Format: <Symbol>@x,y
@@ -12,17 +13,26 @@ public class MoveParser {
         return move.toString();
     }
 
-    public Move parseStringToMove(String moveString) throws Exception {
-        Move outMove = null;
-        String symbolString = moveString.substring(0,moveString.indexOf('@'));
-        String firstCoord = moveString.substring(moveString.indexOf('@'), moveString.indexOf(','));
-        String secondCoord = moveString.substring(moveString.indexOf(',')+1);
-        Coord coord = new Coord(Integer.parseInt(firstCoord), Integer.parseInt(secondCoord));
-        for(Symbol symbol: Symbol.values())
-            if (symbolString.contains(symbol.toString())) {
-                outMove = new Move(symbol, coord);
-                break;
+    public Move parseStringToMove(String moveString) {
+        Move outMove = new Move(Symbol.BLANK, new Coord(0,0));
+        if(moveString.charAt(1)=='@') {
+            Symbol moveSymbol=Symbol.BLANK;
+            for(Symbol symbol: Symbol.values()) {
+                if(moveString.charAt(0)==symbol.toString().charAt(0)) {
+                    moveSymbol=symbol;
+                }
             }
+            if(moveString.charAt(3)==',') {
+                Coord moveCoord;
+                try {
+                    int xCoord = Integer.parseInt(moveString.substring(2,3));
+                    int yCoord = Integer.parseInt(moveString.substring(4));
+                    moveCoord = new Coord(xCoord,yCoord);
+                    outMove = new Move(moveSymbol, moveCoord);
+                } catch (Exception e) {
+                }
+            }
+        }
         return outMove;
     }
 }
