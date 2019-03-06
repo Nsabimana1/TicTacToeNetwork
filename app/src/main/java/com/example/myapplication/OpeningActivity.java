@@ -57,12 +57,12 @@ public class OpeningActivity extends AppCompatActivity {
         acceptConnButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(!connectedIpAddress.equals("")) {
-                        myMoveSymbol = "O";
-                        send("I want to connect", connectedIpAddress, Server.APP_PORT);
-                    }else {
-                            displayToast("You have not received a connection request");
-                        }
+                if(!connectedIpAddress.equals("")) {
+                    myMoveSymbol = "O";
+                    send("I want to connect", connectedIpAddress, Server.APP_PORT);
+                }else {
+                        displayToast("You have not received a connection request");
+                    }
                 }
             });
 
@@ -110,7 +110,7 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 //                myMoveSymbol = "O";
-                send(incomingMessage, OtherPlayerIpEntry.getText().toString(), Server.APP_PORT);
+            send(incomingMessage, OtherPlayerIpEntry.getText().toString(), Server.APP_PORT);
             }
         });
     }
@@ -149,8 +149,6 @@ public class OpeningActivity extends AppCompatActivity {
                     }catch (IOException e) {
                         Log.e(OpeningActivity.class.getName(), "OOps, exception! " + e.getMessage());
                     }
-
-
 
 //                    Log.e(OpeningActivity.class.getName(), "sent message is: " + msg);
 //                    Log.e(OpeningActivity.class.getName(), "the message to compare is: " + incomingMessage);
@@ -202,13 +200,32 @@ public class OpeningActivity extends AppCompatActivity {
                         }
                     });
                 }
-
             }
         }.start();
     }
 
+    public void displayConnectedIp(String connectedIpAddress){
+//        if(this.connectedIpAddress.equals(" ") && !connectedIpAddress.equals(" ")){
+//            this.connectedIpAddress = connectedIpAddress;
+//            showSimpleDialog();
+//        }
+        this.connectedIpAddress = connectedIpAddress;
+        connectionInitiator.setConnectedIP(connectedIpAddress);
+        connectionInitiator.initiateConnection();
+        connectedIpView.setText(connectedIpAddress);
+        enterGameButton.setEnabled(true);
+        acceptConnButton.setEnabled(true);
+    }
 
-//    public void showSimpleDialog() {
+    public void displayToast(String message){
+        Context context = getApplicationContext();
+        CharSequence text = message;
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
+    }
+
+    //    public void showSimpleDialog() {
 //        // Use the Builder class for convenient dialog construction
 //        AlertDialog.Builder builder = new AlertDialog.Builder(OpeningActivity.this);
 //        builder.setCancelable(false);
@@ -246,27 +263,6 @@ public class OpeningActivity extends AppCompatActivity {
 //        builder.create().show();
 //    }
 
-    public void displayConnectedIp(String connectedIpAddress){
-//        if(this.connectedIpAddress.equals(" ") && !connectedIpAddress.equals(" ")){
-//            this.connectedIpAddress = connectedIpAddress;
-//            showSimpleDialog();
-//        }
-        this.connectedIpAddress = connectedIpAddress;
-        connectionInitiator.setConnectedIP(connectedIpAddress);
-        connectionInitiator.initiateConnection();
-        connectedIpView.setText(connectedIpAddress);
-        enterGameButton.setEnabled(true);
-        acceptConnButton.setEnabled(true);
-    }
-
-
-    public void displayToast(String message){
-        Context context = getApplicationContext();
-        CharSequence text = message;
-        int duration = Toast.LENGTH_SHORT;
-        Toast toast = Toast.makeText(context, text, duration);
-        toast.show();
-    }
 
     // if (connection is attempted from another device) {
     // displayToast("connection has been attempted from " + otherIPAddress);

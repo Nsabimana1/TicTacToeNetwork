@@ -255,6 +255,5 @@ public class HostingGameActivity extends AppCompatActivity {
         boardButton02.setText(boardArray[0][2].toString());
         boardButton12.setText(boardArray[1][2].toString());
         boardButton22.setText(boardArray[2][2].toString());
-
     }
 }
