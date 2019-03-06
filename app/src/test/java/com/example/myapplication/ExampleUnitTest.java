@@ -1,6 +1,12 @@
 package com.example.myapplication;
 
+import com.example.myapplication.peertopeernetworking.Communication;
+import com.example.myapplication.peertopeernetworking.Server;
+
 import org.junit.Test;
+
+import java.io.IOException;
+import java.net.Socket;
 
 import static org.junit.Assert.*;
 
@@ -10,6 +16,27 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+    @Test
+    public void test_send_receive() throws Exception {
+        final String testMsg = "This is a test.\nThis is only a test.\n";
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Server.get().listenOnce().start();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+
+        Socket test = new Socket("localhost", Server.APP_PORT);
+        Communication.sendOver(test, testMsg);
+        String result = Communication.receive(test);
+        assertEquals(testMsg, result);
+    }
+
     @Test
     public void addition_isCorrect() {
         assertEquals(4, 2 + 2);

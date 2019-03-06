@@ -25,9 +25,9 @@ import java.net.Socket;
 public class HostingGameActivity extends AppCompatActivity {
     public String connectedIpAddress;
     public String homeIpAddress;
-    private Button sendMove;
-    private TextView receivedMove;
-    private EditText moveEntry;
+//    private Button sendMove;
+//    private TextView receivedMove;
+//    private EditText moveEntry;
     private TextView myIPView;
     private TextView opponentIPView;
     private String receivedMoveFromTheNetwork = "" ;
@@ -66,7 +66,7 @@ public class HostingGameActivity extends AppCompatActivity {
         }
         setComponents();
         setupServer();
-        setUpClient();
+//        setUpClient();
 
         ticTacToeGame = new TicTacToeGame();
         updateBoard();
@@ -82,8 +82,8 @@ public class HostingGameActivity extends AppCompatActivity {
     }
 
     public void setComponents() {
-        moveEntry = findViewById(R.id.moveEntry);
-        receivedMove = findViewById(R.id.Recieve_Move);
+//        moveEntry = findViewById(R.id.moveEntry);
+//        receivedMove = findViewById(R.id.Recieve_Move);
         myIPView = findViewById(R.id.MyIPAdress_View);
         opponentIPView = findViewById(R.id.oponentIP_View);
         myIPView.setText(homeIpAddress);
@@ -187,7 +187,7 @@ public class HostingGameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 String status = ticTacToeGame.parseMoveString(trimmedMove);
-                receivedMove.setText(status);
+//                receivedMove.setText(status);
                 updateBoard();
             }
         });
@@ -215,15 +215,15 @@ public class HostingGameActivity extends AppCompatActivity {
         }.start();
     }
 
-    public void setUpClient(){
-        sendMove = findViewById(R.id.send_Move);
-        sendMove.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                sendMove(connectedIpAddress, Server.APP_PORT, moveEntry.getText().toString());
-            }
-        });
-    }
+//    public void setUpClient(){
+//        sendMove = findViewById(R.id.send_Move);
+//        sendMove.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                sendMove(connectedIpAddress, Server.APP_PORT, moveEntry.getText().toString());
+//            }
+//        });
+//    }
 
     public void setupServer(){
         new Thread(new Runnable() {

@@ -20,10 +20,8 @@ public class Server {
     private static Server instance = null;
 
     public static Server get() throws IOException {
-        Log.i(Server.class.getName(), "Entering Server.get()");
         if (instance == null) {
             instance = new Server();
-            Log.i(Server.class.getName(), "Creating Server instance");
         }
         return instance;
     }
@@ -50,7 +48,6 @@ public class Server {
     public SocketEchoThread listenOnce() throws IOException {
         Socket s = accepter.accept();
         incomingIpAddress = s.getInetAddress().toString();
-        Log.i(Server.class.getName(), "Incoming iP: " + s.getInetAddress());
         SocketEchoThread echoer = new SocketEchoThread(s, listeners);
         return echoer;
     }
