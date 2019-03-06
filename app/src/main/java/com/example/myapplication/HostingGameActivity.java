@@ -13,6 +13,7 @@ import com.example.myapplication.gameImplementation.Coord;
 import com.example.myapplication.gameImplementation.Move;
 import com.example.myapplication.gameImplementation.Symbol;
 import com.example.myapplication.gameImplementation.TicTacToeGame;
+import com.example.myapplication.gameImplementation.WinState;
 import com.example.myapplication.peertopeernetworking.Communication;
 import com.example.myapplication.peertopeernetworking.Server;
 import com.example.myapplication.peertopeernetworking.ServerListener;
@@ -66,9 +67,9 @@ public class HostingGameActivity extends AppCompatActivity {
         setComponents();
         setupServer();
         setUpClient();
-        updateBoard();
 
         ticTacToeGame = new TicTacToeGame();
+        updateBoard();
         String moveFromLocalPlayer = ticTacToeGame.getMoveString();
 
         ticTacToeGame.parseMoveString(moveFromLocalPlayer);
@@ -165,21 +166,27 @@ public class HostingGameActivity extends AppCompatActivity {
         boolean moveMade = ticTacToeGame.makeMove(move);
         if(moveMade) {
             status = "Move made.";
-            String moveString = ticTacToeGame.getMoveString();
+            String moveString = ticTacToeGame.getMoveString().substring(0,5);
             sendMove(connectedIpAddress, Server.APP_PORT, moveString);
         } else {
-            status = "Move not made.";
+            if(ticTacToeGame.checkWin()!= WinState.NO_WIN) {
+                status = ticTacToeGame.checkWin().toString();
+            } else {
+                status = "Move not made.";
+            }
+
         }
         Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
         updateBoard();
     }
 
     public void displayReceivedMove(final String recMove){
-        Log.e("StringParsing", "displayReceivedMove(" + recMove + ")");
+        final String trimmedMove = recMove.substring(0,5);
+        Log.e("StringParsing", "displayReceivedMove(" + trimmedMove + ")");
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                String status = ticTacToeGame.parseMoveString(recMove);
+                String status = ticTacToeGame.parseMoveString(trimmedMove);
                 receivedMove.setText(status);
                 updateBoard();
             }
@@ -207,7 +214,6 @@ public class HostingGameActivity extends AppCompatActivity {
             }
         }.start();
     }
-
 
     public void setUpClient(){
         sendMove = findViewById(R.id.send_Move);
