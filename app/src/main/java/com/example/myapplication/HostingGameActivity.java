@@ -165,11 +165,7 @@ public class HostingGameActivity extends AppCompatActivity {
         if(moveMade) {
             status = "Move made.";
             String moveString = ticTacToeGame.getMoveString();
-            //sending the move
             sendMove(connectedIpAddress, Server.APP_PORT, moveString);
-            //TODO
-            //Innocent: Send moveString to other player
-
         } else {
             status = "Move not made.";
         }
