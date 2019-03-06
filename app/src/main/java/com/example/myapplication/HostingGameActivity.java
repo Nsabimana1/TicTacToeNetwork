@@ -258,4 +258,16 @@ public class HostingGameActivity extends AppCompatActivity {
         boardButton12.setText(boardArray[1][2].toString());
         boardButton22.setText(boardArray[2][2].toString());
     }
+
+    public void activateButtons(boolean value){
+        boardButton00.setEnabled(value);
+        boardButton10.setEnabled(value);
+        boardButton20.setEnabled(value);
+        boardButton01.setEnabled(value);
+        boardButton11.setEnabled(value);
+        boardButton21.setEnabled(value);
+        boardButton02.setEnabled(value);
+        boardButton12.setEnabled(value);
+        boardButton22.setEnabled(value);
+    }
 }
