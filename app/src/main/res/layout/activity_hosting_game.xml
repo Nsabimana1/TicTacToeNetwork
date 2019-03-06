@@ -24,7 +24,7 @@
 
     <TextView
         android:id="@+id/Recieve_Move"
-        android:layout_width="114dp"
+        android:layout_width="354dp"
         android:layout_height="35dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
