@@ -109,7 +109,7 @@ public class OpeningActivity extends AppCompatActivity {
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                myMoveSymbol = "O";
+//                myMoveSymbol = "O";
                 send(incomingMessage, OtherPlayerIpEntry.getText().toString(), Server.APP_PORT);
             }
         });
@@ -141,21 +141,32 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(!msg.equals(" ")){
-                    Log.e(OpeningActivity.class.getName(), "sent message is: " + msg);
-                    Log.e(OpeningActivity.class.getName(), "the message to compare is: " + incomingMessage);
-                    if(!msg.toString().equals(incomingMessage)){
-                        incomingMessage = msg;
-                        try {
-                            String incomingIP = Server.get().getIncomingIpAddress();
-                            if (incomingIP != null) {
-                                displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
-                            }
-                        }catch (IOException e) {
-                            Log.e(OpeningActivity.class.getName(), "OOps, exception! " + e.getMessage());
+                    try {
+                        String incomingIP = Server.get().getIncomingIpAddress();
+                        if (incomingIP != null) {
+                            displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
                         }
-                    }else{
-                        displayToast("Sorry Connection Request denied!! Try again!");
+                    }catch (IOException e) {
+                        Log.e(OpeningActivity.class.getName(), "OOps, exception! " + e.getMessage());
                     }
+
+
+
+//                    Log.e(OpeningActivity.class.getName(), "sent message is: " + msg);
+//                    Log.e(OpeningActivity.class.getName(), "the message to compare is: " + incomingMessage);
+//                    if(!msg.toString().equals(incomingMessage)){
+//                        incomingMessage = msg;
+//                        try {
+//                            String incomingIP = Server.get().getIncomingIpAddress();
+//                            if (incomingIP != null) {
+//                                displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
+//                            }
+//                        }catch (IOException e) {
+//                            Log.e(OpeningActivity.class.getName(), "OOps, exception! " + e.getMessage());
+//                        }
+//                    }else{
+//                        displayToast("Sorry Connection Request denied!! Try again!");
+//                    }
 
 //                    if (incomingIP != null) {
 //                        displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
@@ -197,54 +208,55 @@ public class OpeningActivity extends AppCompatActivity {
     }
 
 
-    public void showSimpleDialog() {
-        // Use the Builder class for convenient dialog construction
-        AlertDialog.Builder builder = new AlertDialog.Builder(OpeningActivity.this);
-        builder.setCancelable(false);
-        builder.setTitle("AlertDialog Title");
-        builder.setMessage("Simple Dialog Message");
-        builder.setPositiveButton("OK!!!", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int id) {
-                connectionInitiator.setConnectedIP(connectedIpAddress);
-                connectionInitiator.initiateConnection();
-                connectedIpView.setText(connectedIpAddress);
-                enterGameButton.setEnabled(true);
-                if(!connectedIpAddress.equals("")) {
-//                    myMoveSymbol = "O";
-                    send("I want to connect", connectedIpAddress, Server.APP_PORT);
-                }else {
-                    displayToast("You have not received a connection request");
-                }
-//                acceptConnButton.setEnabled(true);
-            }
-        })
-                .setNegativeButton("Cancel ", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(!connectedIpAddress.equals("")) {
-//                            myMoveSymbol = "O";
-                            send("I don't want to connect", connectedIpAddress, Server.APP_PORT);
-                        }else {
-                            displayToast("You have not received a connection request");
-                        }
-                    }
-                });
-
-        // Create the AlertDialog object and return it
-        builder.create().show();
-    }
+//    public void showSimpleDialog() {
+//        // Use the Builder class for convenient dialog construction
+//        AlertDialog.Builder builder = new AlertDialog.Builder(OpeningActivity.this);
+//        builder.setCancelable(false);
+//        builder.setTitle("AlertDialog Title");
+//        builder.setMessage("Simple Dialog Message");
+//        builder.setPositiveButton("OK!!!", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int id) {
+//                connectionInitiator.setConnectedIP(connectedIpAddress);
+//                connectionInitiator.initiateConnection();
+//                connectedIpView.setText(connectedIpAddress);
+//                enterGameButton.setEnabled(true);
+//                if(!connectedIpAddress.equals("")) {
+////                    myMoveSymbol = "O";
+//                    send("I want to connect", connectedIpAddress, Server.APP_PORT);
+//                }else {
+//                    displayToast("You have not received a connection request");
+//                }
+////                acceptConnButton.setEnabled(true);
+//            }
+//        })
+//                .setNegativeButton("Cancel ", new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        if(!connectedIpAddress.equals("")) {
+////                            myMoveSymbol = "O";
+//                            send("I don't want to connect", connectedIpAddress, Server.APP_PORT);
+//                        }else {
+//                            displayToast("You have not received a connection request");
+//                        }
+//                    }
+//                });
+//
+//        // Create the AlertDialog object and return it
+//        builder.create().show();
+//    }
 
     public void displayConnectedIp(String connectedIpAddress){
-        if(this.connectedIpAddress.equals(" ") && !connectedIpAddress.equals(" ")){
-            this.connectedIpAddress = connectedIpAddress;
-            showSimpleDialog();
-        }
-//        connectionInitiator.setConnectedIP(connectedIpAddress);
-//        connectionInitiator.initiateConnection();
-//        connectedIpView.setText(connectedIpAddress);
-//        enterGameButton.setEnabled(true);
-//        acceptConnButton.setEnabled(true);
+//        if(this.connectedIpAddress.equals(" ") && !connectedIpAddress.equals(" ")){
+//            this.connectedIpAddress = connectedIpAddress;
+//            showSimpleDialog();
+//        }
+        this.connectedIpAddress = connectedIpAddress;
+        connectionInitiator.setConnectedIP(connectedIpAddress);
+        connectionInitiator.initiateConnection();
+        connectedIpView.setText(connectedIpAddress);
+        enterGameButton.setEnabled(true);
+        acceptConnButton.setEnabled(true);
     }
 
 
