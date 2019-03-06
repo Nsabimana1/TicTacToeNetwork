@@ -32,7 +32,7 @@ public class OpeningActivity extends AppCompatActivity {
     private TextView connectedIpView;
     private ConnectionInitiator connectionInitiator;
     private String localIpAddress;
-    private String connectedIpAddress = "";
+    private String connectedIpAddress = " ";
     private EditText OtherPlayerIpEntry;
     private String otherPlayerIp;
     private Button acceptConnButton;
@@ -109,6 +109,7 @@ public class OpeningActivity extends AppCompatActivity {
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                myMoveSymbol = "O";
                 send(incomingMessage, OtherPlayerIpEntry.getText().toString(), Server.APP_PORT);
             }
         });
@@ -210,12 +211,11 @@ public class OpeningActivity extends AppCompatActivity {
                 connectedIpView.setText(connectedIpAddress);
                 enterGameButton.setEnabled(true);
                 if(!connectedIpAddress.equals("")) {
-                    myMoveSymbol = "O";
+//                    myMoveSymbol = "O";
                     send("I want to connect", connectedIpAddress, Server.APP_PORT);
                 }else {
                     displayToast("You have not received a connection request");
                 }
-
 //                acceptConnButton.setEnabled(true);
             }
         })
@@ -223,7 +223,7 @@ public class OpeningActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if(!connectedIpAddress.equals("")) {
-                            myMoveSymbol = "O";
+//                            myMoveSymbol = "O";
                             send("I don't want to connect", connectedIpAddress, Server.APP_PORT);
                         }else {
                             displayToast("You have not received a connection request");
@@ -236,9 +236,8 @@ public class OpeningActivity extends AppCompatActivity {
     }
 
     public void displayConnectedIp(String connectedIpAddress){
-
-        this.connectedIpAddress = connectedIpAddress;
-        if(!connectedIpAddress.equals(" ")){
+        if(this.connectedIpAddress.equals(" ") && !connectedIpAddress.equals(" ")){
+            this.connectedIpAddress = connectedIpAddress;
             showSimpleDialog();
         }
 //        connectionInitiator.setConnectedIP(connectedIpAddress);
