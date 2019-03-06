@@ -30,14 +30,14 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Reaceved Move"
+        android:text="Received Move"
         android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.028"
+        app:layout_constraintHorizontal_bias="0.473"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.988" />
+        app:layout_constraintVertical_bias="0.845" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout"
@@ -145,20 +145,17 @@
             <Button
                 android:id="@+id/button00"
                 android:layout_width="63dp"
-                android:layout_height="124dp"
-                android:text="Button" />
+                android:layout_height="124dp" />
 
             <Button
                 android:id="@+id/button10"
                 android:layout_width="98dp"
-                android:layout_height="match_parent"
-                android:text="Button" />
+                android:layout_height="match_parent" />
 
             <Button
                 android:id="@+id/button20"
                 android:layout_width="118dp"
-                android:layout_height="124dp"
-                android:text="Button" />
+                android:layout_height="124dp" />
 
         </TableRow>
 
@@ -169,20 +166,17 @@
             <Button
                 android:id="@+id/button01"
                 android:layout_width="wrap_content"
-                android:layout_height="101dp"
-                android:text="Button" />
+                android:layout_height="101dp" />
 
             <Button
                 android:id="@+id/button11"
                 android:layout_width="119dp"
-                android:layout_height="match_parent"
-                android:text="Button" />
+                android:layout_height="match_parent" />
 
             <Button
                 android:id="@+id/button21"
                 android:layout_width="125dp"
-                android:layout_height="101dp"
-                android:text="Button" />
+                android:layout_height="101dp" />
         </TableRow>
 
         <TableRow
@@ -192,20 +186,17 @@
             <Button
                 android:id="@+id/button02"
                 android:layout_width="115dp"
-                android:layout_height="113dp"
-                android:text="Button" />
+                android:layout_height="113dp" />
 
             <Button
                 android:id="@+id/button12"
                 android:layout_width="wrap_content"
-                android:layout_height="113dp"
-                android:text="Button" />
+                android:layout_height="113dp" />
 
             <Button
                 android:id="@+id/button22"
                 android:layout_width="wrap_content"
-                android:layout_height="113dp"
-                android:text="Button" />
+                android:layout_height="113dp" />
         </TableRow>
 
     </TableLayout>
@@ -226,101 +217,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.184" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="47dp"
-        android:layout_height="42dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Me"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.06"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.849" />
-
-    <TextView
-        android:id="@+id/textView9"
-        android:layout_width="48dp"
-        android:layout_height="41dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.213"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.848" />
-
-    <TextView
-        android:id="@+id/textView10"
-        android:layout_width="46dp"
-        android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Op"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.432"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.844" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="41dp"
-        android:layout_height="38dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.581"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.844" />
-
-    <TextView
-        android:id="@+id/textView13"
-        android:layout_width="34dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Ties"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.778"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.839" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="39dp"
-        android:layout_height="34dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="0"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.921"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.839" />
 
 </android.support.constraint.ConstraintLayout>
