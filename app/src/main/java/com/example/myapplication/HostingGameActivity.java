@@ -66,6 +66,7 @@ public class HostingGameActivity extends AppCompatActivity {
         setComponents();
         setupServer();
         setUpClient();
+        updateBoard();
 
         ticTacToeGame = new TicTacToeGame();
         String moveFromLocalPlayer = ticTacToeGame.getMoveString();
@@ -173,6 +174,39 @@ public class HostingGameActivity extends AppCompatActivity {
         updateBoard();
     }
 
+    public void displayReceivedMove(final String recMove){
+        Log.e("StringParsing", "displayReceivedMove(" + recMove + ")");
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                String status = ticTacToeGame.parseMoveString(recMove);
+                receivedMove.setText(status);
+                updateBoard();
+            }
+        });
+    }
+
+    public void sendMove(final String hostIpAddress, final int portNumber, final String move){
+        Log.e("StringParsing", "Sending " + move);
+        new Thread(){
+            @Override
+            public void run() {
+                try {
+                    Socket target = new Socket(hostIpAddress, portNumber);
+                    Communication.sendOver(target, move);
+                    displayReceivedMove(Communication.receive(target));
+                    target.close();
+                } catch (final Exception e) {
+                    HostingGameActivity.this.runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Utilities.notifyException(HostingGameActivity.this, e);
+                        }
+                    });
+                }
+            }
+        }.start();
+    }
 
 
     public void setUpClient(){
@@ -184,7 +218,6 @@ public class HostingGameActivity extends AppCompatActivity {
             }
         });
     }
-
 
     public void setupServer(){
         new Thread(new Runnable() {
@@ -205,39 +238,6 @@ public class HostingGameActivity extends AppCompatActivity {
 
             }
         }).start();
-    }
-
-
-    public void displayReceivedMove(final String recMove){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                String status = ticTacToeGame.parseMoveString(recMove);
-                receivedMove.setText(status);
-                updateBoard();
-            }
-        });
-    }
-
-    public void sendMove(final String hostIpAddress, final int portNumber, final String move){
-        new Thread(){
-            @Override
-            public void run() {
-                try {
-                    Socket target = new Socket(hostIpAddress, portNumber);
-                    Communication.sendOver(target, move);
-                    displayReceivedMove(Communication.receive(target));
-                    target.close();
-                } catch (final Exception e) {
-                    HostingGameActivity.this.runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Utilities.notifyException(HostingGameActivity.this, e);
-                        }
-                    });
-                }
-            }
-        }.start();
     }
 
     private void updateBoard() {
