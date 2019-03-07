@@ -36,6 +36,9 @@ public class HostingGameActivity extends AppCompatActivity {
     private Symbol symbol = Symbol.X;
     private Symbol turn = Symbol.X;
     private String localPlayerSymbol;
+    private TextView xwincount;
+    private TextView owincount;
+    private TextView tiecount;
 
     //board buttons
     //00 10 20
@@ -89,6 +92,9 @@ public class HostingGameActivity extends AppCompatActivity {
         opponentIPView = findViewById(R.id.oponentIP_View);
         myIPView.setText(homeIpAddress);
         opponentIPView.setText(connectedIpAddress);
+        xwincount = findViewById(R.id.xWins);
+        owincount = findViewById(R.id.oWins);
+        tiecount = findViewById(R.id.ties);
 
         //setting board components
         setBoardButtons();
