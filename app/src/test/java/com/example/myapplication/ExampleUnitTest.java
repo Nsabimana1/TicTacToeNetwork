@@ -16,6 +16,10 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
+    public static final String connectingMessage = "letUSConnect";
+    public static final String rejectingConnectionMessage = "Don'tWantToConnect";
+    public static final String acceptingConnectionMessage = "letUSConnect";
+
     @Test
     public void test_send_receive() throws Exception {
         final String testMsg = "This is a test.\nThis is only a test.\n";
@@ -37,8 +41,31 @@ public class ExampleUnitTest {
         assertEquals(testMsg, result);
     }
 
-    @Test
-    public void addition_isCorrect() {
-        assertEquals(4, 2 + 2);
+
+    public boolean checkEqual(String messageToSend, String messageToReceive) throws Exception {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try{
+                    Server.get().listenOnce().start();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+        Socket connectTestSocket = new Socket("localhost", Server.APP_PORT);
+        Communication.sendOver( connectTestSocket, messageToSend);
+        return messageToReceive.equals(Communication.receive(connectTestSocket).trim());
     }
+
+    @Test
+    public void testIsCollected() throws Exception {
+        assertTrue(checkEqual(connectingMessage, acceptingConnectionMessage));
+    }
+
+    @Test
+    public void testIsNotCollected() throws Exception {
+        assertFalse(checkEqual(connectingMessage, rejectingConnectionMessage));
+    }
+
 }

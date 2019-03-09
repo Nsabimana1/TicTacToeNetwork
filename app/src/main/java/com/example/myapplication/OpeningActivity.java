@@ -13,7 +13,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.myapplication.gameImplementation.Symbol;
 import com.example.myapplication.peertopeernetworking.Communication;
 import com.example.myapplication.peertopeernetworking.ConnectionInitiator;
 import com.example.myapplication.peertopeernetworking.Server;
@@ -38,7 +37,8 @@ public class OpeningActivity extends AppCompatActivity {
     private Button acceptConnButton;
     private String myMoveSymbol = "X";
 
-    public static String incomingMessage = "letUSConnect";
+    public static String confirmingMessage = "letUSConnect";
+    public static String rejectingMessage = "Don't_want_To_connect";
     public static final String hostIpAddress = "connectedIpAddress";
     public static final String myLocalIpAddress = "MyIpAddress";
     public static final String localMoveSymbol = "initialMoveSymbol";
@@ -49,16 +49,13 @@ public class OpeningActivity extends AppCompatActivity {
         setContentView(R.layout.activity_opening);
 
         setupComponents();
-
         setupClient();
-
         setupServer();
 
         acceptConnButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                 if(!connectedIpAddress.equals("")) {
-                    myMoveSymbol = "O";
                     send("I want to connect", connectedIpAddress, Server.APP_PORT);
                 }else {
                         displayToast("You have not received a connection request");
@@ -66,8 +63,7 @@ public class OpeningActivity extends AppCompatActivity {
                 }
             });
 
-
-
+        
         enterGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -99,7 +95,6 @@ public class OpeningActivity extends AppCompatActivity {
         } catch (SocketException e) {
             Log.e("MainActivity", "Threw exception when finding ip address");
         }
-
         connectionInitiator = new ConnectionInitiator(localIpAddress);
         enterGameButton.setEnabled(false);
         acceptConnButton.setEnabled(false);
@@ -109,8 +104,11 @@ public class OpeningActivity extends AppCompatActivity {
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                myMoveSymbol = "O";
-            send(incomingMessage, OtherPlayerIpEntry.getText().toString(), Server.APP_PORT);
+                if (OtherPlayerIpEntry.getText().toString().length() == 14) {
+                    send("let us connect", OtherPlayerIpEntry.getText().toString(), Server.APP_PORT);
+                }else {
+                    displayToast("Please Enter a Valid Ip Address");
+                }
             }
         });
     }
@@ -141,44 +139,17 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if(!msg.equals(" ")){
-                    try {
-                        String incomingIP = Server.get().getIncomingIpAddress();
-                        if (incomingIP != null) {
-                            displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
+                    Log.e(OpeningActivity.class.getName(), "sent message is: " + msg);
+                    Log.e(OpeningActivity.class.getName(), "the message to compare is: " + confirmingMessage);
+                        try {
+                            String incomingIP = Server.get().getIncomingIpAddress();
+                            if (incomingIP != null) {
+                                displayConnectedIp(incomingIP.trim(), msg.trim());
+                            }
+                        }catch (IOException e) {
+                            Log.e(OpeningActivity.class.getName(), "OOps, exception! " + e.getMessage());
                         }
-                    }catch (IOException e) {
-                        Log.e(OpeningActivity.class.getName(), "OOps, exception! " + e.getMessage());
-                    }
-
-//                    Log.e(OpeningActivity.class.getName(), "sent message is: " + msg);
-//                    Log.e(OpeningActivity.class.getName(), "the message to compare is: " + incomingMessage);
-//                    if(!msg.toString().equals(incomingMessage)){
-//                        incomingMessage = msg;
-//                        try {
-//                            String incomingIP = Server.get().getIncomingIpAddress();
-//                            if (incomingIP != null) {
-//                                displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
-//                            }
-//                        }catch (IOException e) {
-//                            Log.e(OpeningActivity.class.getName(), "OOps, exception! " + e.getMessage());
-//                        }
-//                    }else{
-//                        displayToast("Sorry Connection Request denied!! Try again!");
-//                    }
-
-//                    if (incomingIP != null) {
-//                        displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
-//                    }
-//                    try {
-//                        String incomingIP = server.getIncomingIpAddress();
-//                        if (incomingIP != null) {
-//                            displayConnectedIp(incomingIP.substring(1, incomingIP.length()));
-//                        }
-//                    } catch (IOException e) {
-//                        Log.e(OpeningActivity.class.getName(), "OOps, exception! " + e.getMessage());
-//                    }
                 }
-//                    connectedIpView.setText(msg);
             }
         });
     }
@@ -204,17 +175,24 @@ public class OpeningActivity extends AppCompatActivity {
         }.start();
     }
 
-    public void displayConnectedIp(String connectedIpAddress){
-//        if(this.connectedIpAddress.equals(" ") && !connectedIpAddress.equals(" ")){
-//            this.connectedIpAddress = connectedIpAddress;
-//            showSimpleDialog();
-//        }
-        this.connectedIpAddress = connectedIpAddress;
-        connectionInitiator.setConnectedIP(connectedIpAddress);
-        connectionInitiator.initiateConnection();
-        connectedIpView.setText(connectedIpAddress);
-        enterGameButton.setEnabled(true);
-        acceptConnButton.setEnabled(true);
+    public void displayConnectedIp(String incomingIpAddress, String message){
+        Log.e(OpeningActivity.class.getName(), "Incoming Ip address is: " + incomingIpAddress);
+        Log.e(OpeningActivity.class.getName(), "Local Ip address is: " + localIpAddress);
+        if(this.connectedIpAddress.equals(" ") && !incomingIpAddress.equals(localIpAddress) ){
+            if(message.equals(confirmingMessage)){
+                this.connectedIpAddress = incomingIpAddress;
+                connectionInitiator.setConnectedIP(incomingIpAddress);
+                connectionInitiator.initiateConnection();
+                connectedIpView.setText(incomingIpAddress);
+                enterGameButton.setEnabled(true);
+                messageStatusDialog("Your Request Has Been Accepted :)");
+            } else if (message.equals(rejectingMessage)){
+                this.connectedIpAddress = " ";
+                messageStatusDialog("Your Request Has Been Rejected :)");
+            }else {
+                connectionPromptDialogBox(incomingIpAddress);
+            }
+        }
     }
 
     public void displayToast(String message){
@@ -225,47 +203,49 @@ public class OpeningActivity extends AppCompatActivity {
         toast.show();
     }
 
-    //    public void showSimpleDialog() {
-//        // Use the Builder class for convenient dialog construction
-//        AlertDialog.Builder builder = new AlertDialog.Builder(OpeningActivity.this);
-//        builder.setCancelable(false);
-//        builder.setTitle("AlertDialog Title");
-//        builder.setMessage("Simple Dialog Message");
-//        builder.setPositiveButton("OK!!!", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int id) {
-//                connectionInitiator.setConnectedIP(connectedIpAddress);
-//                connectionInitiator.initiateConnection();
-//                connectedIpView.setText(connectedIpAddress);
-//                enterGameButton.setEnabled(true);
-//                if(!connectedIpAddress.equals("")) {
-////                    myMoveSymbol = "O";
-//                    send("I want to connect", connectedIpAddress, Server.APP_PORT);
-//                }else {
-//                    displayToast("You have not received a connection request");
-//                }
-////                acceptConnButton.setEnabled(true);
-//            }
-//        })
-//                .setNegativeButton("Cancel ", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        if(!connectedIpAddress.equals("")) {
-////                            myMoveSymbol = "O";
-//                            send("I don't want to connect", connectedIpAddress, Server.APP_PORT);
-//                        }else {
-//                            displayToast("You have not received a connection request");
-//                        }
-//                    }
-//                });
-//
-//        // Create the AlertDialog object and return it
-//        builder.create().show();
-//    }
+    public void connectionPromptDialogBox(final String incomingIpAddress) {
+    // Use the Builder class for convenient dialog construction
+    AlertDialog.Builder builder = new AlertDialog.Builder(OpeningActivity.this);
+    builder.setCancelable(false);
+    builder.setTitle("Connection Request");
+    builder.setMessage(incomingIpAddress + " Would like to connect with you");
+    builder.setPositiveButton("Accept", new DialogInterface.OnClickListener() {
+        @Override
+        public void onClick(DialogInterface dialog, int id) {
+            connectedIpAddress = incomingIpAddress;
+            connectionInitiator.setConnectedIP(connectedIpAddress);
+            connectionInitiator.initiateConnection();
+            connectedIpView.setText(connectedIpAddress);
+            enterGameButton.setEnabled(true);
+            myMoveSymbol = "O";
+            send(confirmingMessage, connectedIpAddress, Server.APP_PORT);
+        }
+    })
+            .setNegativeButton("Reject ", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    connectedIpAddress = " ";
+                    send(rejectingMessage, incomingIpAddress, Server.APP_PORT);
+                }
+            });
+    // Create the AlertDialog object and return it
+    builder.create().show();
+    }
 
 
-    // if (connection is attempted from another device) {
-    // displayToast("connection has been attempted from " + otherIPAddress);
-    // }
+    public void messageStatusDialog(String notificationMessage) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(OpeningActivity.this);
+        builder.setCancelable(false);
+        builder.setTitle("Connection Request Status");
+        builder.setMessage(notificationMessage);
+        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int id) {
+                // nothing needs to be implemented here
+            }
+        });
+        // Create the AlertDialog object and return it
+        builder.create().show();
+    }
 }
 

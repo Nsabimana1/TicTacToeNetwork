@@ -47,7 +47,8 @@ public class Server {
 
     public SocketEchoThread listenOnce() throws IOException {
         Socket s = accepter.accept();
-        incomingIpAddress = s.getInetAddress().toString();
+        String incomingIP = s.getInetAddress().toString();
+        incomingIpAddress =  incomingIP.substring(1, incomingIP.length());
         SocketEchoThread echoer = new SocketEchoThread(s, listeners);
         return echoer;
     }
