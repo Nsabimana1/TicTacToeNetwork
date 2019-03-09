@@ -34,7 +34,11 @@ public class HostingGameActivity extends AppCompatActivity {
     private String localMove;
     private TicTacToeGame ticTacToeGame;
     private Symbol symbol = Symbol.X;
+    private Symbol turn = Symbol.X;
     private String localPlayerSymbol;
+    private TextView xwincount;
+    private TextView owincount;
+    private TextView tiecount;
 
     //board buttons
     //00 10 20
@@ -88,6 +92,9 @@ public class HostingGameActivity extends AppCompatActivity {
         opponentIPView = findViewById(R.id.oponentIP_View);
         myIPView.setText(homeIpAddress);
         opponentIPView.setText(connectedIpAddress);
+        xwincount = findViewById(R.id.xWins);
+        owincount = findViewById(R.id.oWins);
+        tiecount = findViewById(R.id.ties);
 
         //setting board components
         setBoardButtons();
@@ -107,63 +114,72 @@ public class HostingGameActivity extends AppCompatActivity {
         boardButton00.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeMoveAt(0,0);
+                tryMoveAt(0,0);
             }
         });
         boardButton10.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeMoveAt(1,0);
+                tryMoveAt(1,0);
             }
         });
         boardButton20.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeMoveAt(2,0);
+                tryMoveAt(2,0);
             }
         });
         boardButton01.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeMoveAt(0,1);
+                tryMoveAt(0,1);
             }
         });
         boardButton11.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeMoveAt(1,1);
+                tryMoveAt(1,1);
             }
         });
         boardButton21.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeMoveAt(2,1);
+                tryMoveAt(2,1);
             }
         });
         boardButton02.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeMoveAt(0,2);
+                tryMoveAt(0,2);
             }
         });
         boardButton12.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeMoveAt(1,2);
+                tryMoveAt(1,2);
             }
         });
         boardButton22.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                makeMoveAt(2,2);
+                tryMoveAt(2,2);
             }
         });
+    }
+
+    private void tryMoveAt(int x, int y) {
+        if(isTurn(symbol)) {
+            makeMoveAt(x,y);
+        } else {
+            Toast.makeText(getApplicationContext(), "It isn't your turn!", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void makeMoveAt(int x, int y) {
         String status = "[PH]";
         Move move = new Move(symbol, new Coord(x,y));
         boolean moveMade = ticTacToeGame.makeMove(move);
+
         if(moveMade) {
             status = "Move made.";
             String moveString = ticTacToeGame.getMoveString().substring(0,5);
@@ -182,6 +198,7 @@ public class HostingGameActivity extends AppCompatActivity {
 
     public void displayReceivedMove(final String recMove){
         final String trimmedMove = recMove.substring(0,5);
+        toggleTurn();
         Log.e("StringParsing", "displayReceivedMove(" + trimmedMove + ")");
         runOnUiThread(new Runnable() {
             @Override
@@ -259,7 +276,7 @@ public class HostingGameActivity extends AppCompatActivity {
         boardButton22.setText(boardArray[2][2].toString());
     }
 
-    public void activateButtons(boolean value){
+    private void activateButtons(boolean value){
         boardButton00.setEnabled(value);
         boardButton10.setEnabled(value);
         boardButton20.setEnabled(value);
@@ -269,5 +286,16 @@ public class HostingGameActivity extends AppCompatActivity {
         boardButton02.setEnabled(value);
         boardButton12.setEnabled(value);
         boardButton22.setEnabled(value);
+    }
+
+    private boolean isTurn(Symbol symbol) {
+        return turn == symbol;
+    }
+
+    private void toggleTurn() {
+        if(turn == Symbol.X)
+            turn = Symbol.O;
+        if(turn == Symbol.O)
+            turn = Symbol.X;
     }
 }
