@@ -34,7 +34,7 @@ public class OpeningActivity extends AppCompatActivity {
     private String connectedIpAddress = " ";
     private EditText OtherPlayerIpEntry;
     private String otherPlayerIp;
-    private Button acceptConnButton;
+//    private Button acceptConnButton;
     private String myMoveSymbol = "X";
 
     public static String confirmingMessage = "letUSConnect";
@@ -52,16 +52,16 @@ public class OpeningActivity extends AppCompatActivity {
         setupClient();
         setupServer();
 
-        acceptConnButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                if(!connectedIpAddress.equals("")) {
-                    send("I want to connect", connectedIpAddress, Server.APP_PORT);
-                }else {
-                        displayToast("You have not received a connection request");
-                    }
-                }
-            });
+//        acceptConnButton.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                if(!connectedIpAddress.equals("")) {
+//                    send("I want to connect", connectedIpAddress, Server.APP_PORT);
+//                }else {
+//                        displayToast("You have not received a connection request");
+//                    }
+//                }
+//            });
 
 
         enterGameButton.setOnClickListener(new View.OnClickListener() {
@@ -87,7 +87,7 @@ public class OpeningActivity extends AppCompatActivity {
         connectedIpView = findViewById(R.id.connectedIP);
         enterGameButton = findViewById(R.id.gameButton);
         OtherPlayerIpEntry = findViewById(R.id.otherIP_Entry);
-        acceptConnButton = findViewById(R.id.Accept_Connection);
+//        acceptConnButton = findViewById(R.id.Accept_Connection);
         connectButton = findViewById(R.id.connectButton);
         try {
             localIpAddress = Utilities.getLocalIpAddress();
@@ -97,7 +97,6 @@ public class OpeningActivity extends AppCompatActivity {
         }
         connectionInitiator = new ConnectionInitiator(localIpAddress);
         enterGameButton.setEnabled(false);
-        acceptConnButton.setEnabled(false);
     }
 
     private void setupClient() {
