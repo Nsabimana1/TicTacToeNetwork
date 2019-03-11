@@ -18,7 +18,7 @@ public enum Symbol {
     }, BLANK {
         @Override
         public String toString() {
-            return " ";
+            return "-";
         }
         @Override
         public WinState getWinner() {return WinState.NO_WIN;}

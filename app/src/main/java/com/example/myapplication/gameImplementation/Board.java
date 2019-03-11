@@ -22,7 +22,7 @@ public class Board {
     }
 
 
-    private void resetBoard() {
+    public void resetBoard() {
         for(int x = 0; x<m; x++) {
             for(int y = 0; y<n; y++) {
                 boardArray[x][y] = Symbol.BLANK;

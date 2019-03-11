@@ -88,8 +88,8 @@ public class TicTacToeGame {
                 return board.getBoardArray()[0][0].getWinner();
         }
         if(board.getBoardArray()[2][0] == board.getBoardArray()[1][1] && board.getBoardArray()[1][1] == board.getBoardArray()[0][2]) {
-            if(board.getBoardArray()[0][0]!=Symbol.BLANK)
-                return board.getBoardArray()[0][0].getWinner();
+            if(board.getBoardArray()[2][0]!=Symbol.BLANK)
+                return board.getBoardArray()[2][0].getWinner();
         }
         return WinState.NO_WIN;
     }
@@ -100,5 +100,9 @@ public class TicTacToeGame {
     }
     public MoveParser getMoveParser() {
         return moveParser;
+    }
+    public void resetBoard() {
+        board.resetBoard();
+        recentMove = new Move(Symbol.BLANK, new Coord(0,0));
     }
 }
