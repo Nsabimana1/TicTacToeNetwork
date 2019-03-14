@@ -39,6 +39,8 @@ public class HostingGameActivity extends AppCompatActivity {
     private TextView xwincount;
     private TextView owincount;
     private TextView tiecount;
+    private boolean isMyTurn = false;
+    private Button restartGame;
 
     //board buttons
     //00 10 20
@@ -67,6 +69,7 @@ public class HostingGameActivity extends AppCompatActivity {
             symbol = Symbol.O;
         }else {
             symbol = Symbol.X;
+            isMyTurn = true;
         }
         setComponents();
         setupServer();
@@ -95,6 +98,7 @@ public class HostingGameActivity extends AppCompatActivity {
         xwincount = findViewById(R.id.xWins);
         owincount = findViewById(R.id.oWins);
         tiecount = findViewById(R.id.ties);
+        restartGame = findViewById(R.id.Restart_Button);
 
         //setting board components
         setBoardButtons();
@@ -168,8 +172,15 @@ public class HostingGameActivity extends AppCompatActivity {
     }
 
     private void tryMoveAt(int x, int y) {
-        if(isTurn(symbol)) {
+//        if(isTurn(symbol)) {
+//            makeMoveAt(x,y);
+//        } else {
+//            Toast.makeText(getApplicationContext(), "It isn't your turn!", Toast.LENGTH_SHORT).show();
+//        }
+
+        if(isMyTurn) {
             makeMoveAt(x,y);
+            toggleTurn();
         } else {
             Toast.makeText(getApplicationContext(), "It isn't your turn!", Toast.LENGTH_SHORT).show();
         }
@@ -190,7 +201,6 @@ public class HostingGameActivity extends AppCompatActivity {
             } else {
                 status = "Move not made.";
             }
-
         }
         Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
         updateBoard();
@@ -276,26 +286,15 @@ public class HostingGameActivity extends AppCompatActivity {
         boardButton22.setText(boardArray[2][2].toString());
     }
 
-    private void activateButtons(boolean value){
-        boardButton00.setEnabled(value);
-        boardButton10.setEnabled(value);
-        boardButton20.setEnabled(value);
-        boardButton01.setEnabled(value);
-        boardButton11.setEnabled(value);
-        boardButton21.setEnabled(value);
-        boardButton02.setEnabled(value);
-        boardButton12.setEnabled(value);
-        boardButton22.setEnabled(value);
-    }
-
     private boolean isTurn(Symbol symbol) {
         return turn == symbol;
     }
 
     private void toggleTurn() {
-        if(turn == Symbol.X)
-            turn = Symbol.O;
-        if(turn == Symbol.O)
-            turn = Symbol.X;
+        isMyTurn = !isMyTurn;
+//        if(turn == Symbol.X)
+//            turn = Symbol.O;
+//        if(turn == Symbol.O)
+//            turn = Symbol.X;
     }
 }

@@ -42,6 +42,7 @@ public class OpeningActivity extends AppCompatActivity {
     public static final String hostIpAddress = "connectedIpAddress";
     public static final String myLocalIpAddress = "MyIpAddress";
     public static final String localMoveSymbol = "initialMoveSymbol";
+    public static String toGameScreen = "gameScreen";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,35 +53,26 @@ public class OpeningActivity extends AppCompatActivity {
         setupClient();
         setupServer();
 
-//        acceptConnButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                if(!connectedIpAddress.equals("")) {
-//                    send("I want to connect", connectedIpAddress, Server.APP_PORT);
-//                }else {
-//                        displayToast("You have not received a connection request");
-//                    }
-//                }
-//            });
-
-
         enterGameButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (connectionInitiator.isConnected()) {
-                    Intent proceeding_To_Game_Screen = new Intent(OpeningActivity.this, HostingGameActivity.class);
-                    proceeding_To_Game_Screen.putExtra(hostIpAddress, connectedIpAddress);
-                    proceeding_To_Game_Screen.putExtra(myLocalIpAddress, localIpAddress);
-                    proceeding_To_Game_Screen.putExtra(localMoveSymbol, myMoveSymbol);
-                    startActivity(proceeding_To_Game_Screen);
-                } else {
-                    displayToast("Still waiting for connection");
-                }
+                gotoNextScreen();
            }
         });
     }
 
 
+    public void gotoNextScreen(){
+        if (connectionInitiator.isConnected()) {
+            Intent proceeding_To_Game_Screen = new Intent(OpeningActivity.this, HostingGameActivity.class);
+            proceeding_To_Game_Screen.putExtra(hostIpAddress, connectedIpAddress);
+            proceeding_To_Game_Screen.putExtra(myLocalIpAddress, localIpAddress);
+            proceeding_To_Game_Screen.putExtra(localMoveSymbol, myMoveSymbol);
+            startActivity(proceeding_To_Game_Screen);
+        } else {
+            displayToast("Still waiting for connection");
+        }
+    }
 
     private void setupComponents() {
         localIpView = findViewById(R.id.local_UserIP_View);
@@ -111,7 +103,6 @@ public class OpeningActivity extends AppCompatActivity {
             }
         });
     }
-
 
 
     private void setupServer() {
@@ -188,6 +179,8 @@ public class OpeningActivity extends AppCompatActivity {
             } else if (message.equals(rejectingMessage)){
                 this.connectedIpAddress = " ";
                 messageStatusDialog("Your Request Has Been Rejected :)");
+            }else if(message.equals(toGameScreen)){
+                gotoNextScreen();
             }else {
                 connectionPromptDialogBox(incomingIpAddress);
             }
@@ -241,6 +234,10 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 // nothing needs to be implemented here
+                if(connectionInitiator.isConnected()) {
+                    gotoNextScreen();
+                    send(toGameScreen, connectedIpAddress, Server.APP_PORT);
+                }
             }
         });
         // Create the AlertDialog object and return it
