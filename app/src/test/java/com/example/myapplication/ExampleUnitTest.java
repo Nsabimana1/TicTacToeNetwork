@@ -2,11 +2,13 @@ package com.example.myapplication;
 
 import com.example.myapplication.peertopeernetworking.Communication;
 import com.example.myapplication.peertopeernetworking.Server;
+import com.example.myapplication.peertopeernetworking.Utilities;
 
 import org.junit.Test;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.net.SocketException;
 
 import static org.junit.Assert.*;
 
@@ -16,9 +18,13 @@ import static org.junit.Assert.*;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 public class ExampleUnitTest {
-    public static final String connectingMessage = "letUSConnect";
-    public static final String rejectingConnectionMessage = "Don'tWantToConnect";
-    public static final String acceptingConnectionMessage = "letUSConnect";
+    public static  String connectingMessage = "letUSConnect";
+    public static  String rejectingConnectionMessage = "Don'tWantToConnect";
+    public static  String acceptingConnectionMessage = "letUSConnect";
+    private String localIpAddress = Utilities.getLocalIpAddress();
+
+    public ExampleUnitTest() throws SocketException {
+    }
 
     @Test
     public void test_send_receive() throws Exception {
@@ -35,9 +41,11 @@ public class ExampleUnitTest {
             }
         }).start();
 
-        Socket test = new Socket("localhost", Server.APP_PORT);
+        Socket test = new Socket(localIpAddress, Server.APP_PORT);
         Communication.sendOver(test, testMsg);
         String result = Communication.receive(test);
+        System.out.print("Ready to recieve");
+        System.out.print(result);
         assertEquals(testMsg, result);
     }
 
@@ -53,18 +61,18 @@ public class ExampleUnitTest {
                 }
             }
         }).start();
-        Socket connectTestSocket = new Socket("localhost", Server.APP_PORT);
+        Socket connectTestSocket = new Socket(localIpAddress, Server.APP_PORT);
         Communication.sendOver( connectTestSocket, messageToSend);
         return messageToReceive.equals(Communication.receive(connectTestSocket).trim());
     }
 
     @Test
-    public void testIsCollected() throws Exception {
+    public void testIsConnected() throws Exception {
         assertTrue(checkEqual(connectingMessage, acceptingConnectionMessage));
     }
 
     @Test
-    public void testIsNotCollected() throws Exception {
+    public void testIsNotConnected() throws Exception {
         assertFalse(checkEqual(connectingMessage, rejectingConnectionMessage));
     }
 

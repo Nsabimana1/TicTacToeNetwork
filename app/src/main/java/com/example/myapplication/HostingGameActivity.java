@@ -82,6 +82,14 @@ public class HostingGameActivity extends AppCompatActivity {
         ticTacToeGame.parseMoveString(moveFromLocalPlayer);
         localMove = moveFromLocalPlayer;
         ticTacToeGame.parseMoveString(receivedMoveFromTheNetwork);
+
+        restartGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ticTacToeGame.resetBoard();
+                updateBoard();
+            }
+        });
     }
 
     public void setReceivedMoveFromTheNetwork(String move){
