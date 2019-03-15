@@ -95,7 +95,7 @@ public class OpeningActivity extends AppCompatActivity {
         connectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (OtherPlayerIpEntry.getText().toString().length() == 14) {
+                if (OtherPlayerIpEntry.getText().toString().length() > 0) {
                     send("let us connect", OtherPlayerIpEntry.getText().toString(), Server.APP_PORT);
                 }else {
                     displayToast("Please Enter a Valid Ip Address");
@@ -179,7 +179,7 @@ public class OpeningActivity extends AppCompatActivity {
             } else if (message.equals(rejectingMessage)){
                 this.connectedIpAddress = " ";
                 messageStatusDialog("Your Request Has Been Rejected :)");
-            }else if(message.equals(toGameScreen)){
+            }else if(message.trim().equals(toGameScreen)){
                 gotoNextScreen();
             }else {
                 connectionPromptDialogBox(incomingIpAddress);
@@ -235,7 +235,7 @@ public class OpeningActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id) {
                 // nothing needs to be implemented here
                 if(connectionInitiator.isConnected()) {
-                    gotoNextScreen();
+//                    gotoNextScreen();
                     send(toGameScreen, connectedIpAddress, Server.APP_PORT);
                 }
             }

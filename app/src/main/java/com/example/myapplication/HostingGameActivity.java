@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,9 +24,6 @@ import java.net.Socket;
 public class HostingGameActivity extends AppCompatActivity {
     public String connectedIpAddress;
     public String homeIpAddress;
-//    private Button sendMove;
-//    private TextView receivedMove;
-//    private EditText moveEntry;
     private TextView myIPView;
     private TextView opponentIPView;
     private String receivedMoveFromTheNetwork = "" ;
@@ -41,6 +37,9 @@ public class HostingGameActivity extends AppCompatActivity {
     private TextView tiecount;
     private boolean isMyTurn = false;
     private Button restartGame;
+    private Integer xWins = 0;
+    private Integer oWins = 0;
+    private Integer ties = 0;
 
     //board buttons
     //00 10 20
@@ -56,6 +55,9 @@ public class HostingGameActivity extends AppCompatActivity {
     private Button boardButton20;
     private Button boardButton21;
     private Button boardButton22;
+
+    public static String resetMessage = "reset";
+    public static String restartGameMessage = "restart";
 
 
     @Override
@@ -73,7 +75,6 @@ public class HostingGameActivity extends AppCompatActivity {
         }
         setComponents();
         setupServer();
-//        setUpClient();
 
         ticTacToeGame = new TicTacToeGame();
         updateBoard();
@@ -86,19 +87,37 @@ public class HostingGameActivity extends AppCompatActivity {
         restartGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ticTacToeGame.resetBoard();
-                updateBoard();
+               restartGame();
+               sendMove(connectedIpAddress, Server.APP_PORT, restartGameMessage);
             }
         });
     }
 
-    public void setReceivedMoveFromTheNetwork(String move){
-        this.receivedMoveFromTheNetwork = move;
+    public void restartGame(){
+        redrawBoad();
+        xWins = 0;
+        oWins = 0;
+        ties = 0;
+        setWinCounts();
+    }
+
+    public void setWinCounts(){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                xwincount.setText(xWins.toString());
+                owincount.setText(oWins.toString());
+                tiecount.setText(ties.toString());
+            }
+        });
+    }
+
+    public void redrawBoad(){
+        ticTacToeGame.resetBoard();
+        updateBoard();
     }
 
     public void setComponents() {
-//        moveEntry = findViewById(R.id.moveEntry);
-//        receivedMove = findViewById(R.id.Recieve_Move);
         myIPView = findViewById(R.id.MyIPAdress_View);
         opponentIPView = findViewById(R.id.oponentIP_View);
         myIPView.setText(homeIpAddress);
@@ -107,6 +126,9 @@ public class HostingGameActivity extends AppCompatActivity {
         owincount = findViewById(R.id.oWins);
         tiecount = findViewById(R.id.ties);
         restartGame = findViewById(R.id.Restart_Button);
+        xwincount.setText(xWins.toString());
+        owincount.setText(oWins.toString());
+        tiecount.setText(ties.toString());
 
         //setting board components
         setBoardButtons();
@@ -180,18 +202,33 @@ public class HostingGameActivity extends AppCompatActivity {
     }
 
     private void tryMoveAt(int x, int y) {
-//        if(isTurn(symbol)) {
-//            makeMoveAt(x,y);
-//        } else {
-//            Toast.makeText(getApplicationContext(), "It isn't your turn!", Toast.LENGTH_SHORT).show();
-//        }
-
         if(isMyTurn) {
             makeMoveAt(x,y);
             toggleTurn();
         } else {
             Toast.makeText(getApplicationContext(), "It isn't your turn!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void setWinner(String winStatus){
+        if (winStatus.equals("X wins")){
+            xWins += 1;
+
+        }if (winStatus.equals("Y wins")){
+            oWins += 1;
+        }if (winStatus.equals("No winner")){
+            ties += 1;
+        }
+    }
+
+    private void displayWins(final String winStatus){
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+            setWinner(winStatus);
+            setWinCounts();
+            }
+        });
     }
 
     private void makeMoveAt(int x, int y) {
@@ -206,6 +243,11 @@ public class HostingGameActivity extends AppCompatActivity {
         } else {
             if(ticTacToeGame.checkWin()!= WinState.NO_WIN) {
                 status = ticTacToeGame.checkWin().toString();
+//                ticTacToeGame.resetBoard();
+//                updateBoard();
+                displayWins(status);
+                redrawBoad();
+                sendMove(connectedIpAddress, Server.APP_PORT, resetMessage);
             } else {
                 status = "Move not made.";
             }
@@ -215,17 +257,23 @@ public class HostingGameActivity extends AppCompatActivity {
     }
 
     public void displayReceivedMove(final String recMove){
-        final String trimmedMove = recMove.substring(0,5);
-        toggleTurn();
-        Log.e("StringParsing", "displayReceivedMove(" + trimmedMove + ")");
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                String status = ticTacToeGame.parseMoveString(trimmedMove);
-//                receivedMove.setText(status);
-                updateBoard();
-            }
-        });
+        if (recMove.trim().equals(resetMessage)){
+            String status  = ticTacToeGame.checkWin().toString();
+            displayWins(status);
+            redrawBoad();
+            toggleTurn();
+        } else {
+            final String trimmedMove = recMove.substring(0, 5);
+            toggleTurn();
+            Log.e("StringParsing", "displayReceivedMove(" + trimmedMove + ")");
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    String status = ticTacToeGame.parseMoveString(trimmedMove);
+                    updateBoard();
+                }
+            });
+        }
     }
 
     public void sendMove(final String hostIpAddress, final int portNumber, final String move){
@@ -250,33 +298,20 @@ public class HostingGameActivity extends AppCompatActivity {
         }.start();
     }
 
-//    public void setUpClient(){
-//        sendMove = findViewById(R.id.send_Move);
-//        sendMove.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                sendMove(connectedIpAddress, Server.APP_PORT, moveEntry.getText().toString());
-//            }
-//        });
-//    }
-
     public void setupServer(){
         new Thread(new Runnable() {
             @Override
             public void run() {
-                try {
-
-                    Server.get().addListener(new ServerListener() {
-                        @Override
-                        public void notifyMessage(String msg) {
-                            displayReceivedMove(msg);
-                        }
-                    });
-
-                } catch (IOException e) {
-                    Log.e(HostingGameActivity.class.getName(), "Could not start server");
-                }
-
+            try {
+                Server.get().addListener(new ServerListener() {
+                    @Override
+                    public void notifyMessage(String msg) {
+                        displayReceivedMove(msg);
+                    }
+                });
+            } catch (IOException e) {
+                Log.e(HostingGameActivity.class.getName(), "Could not start server");
+            }
             }
         }).start();
     }
@@ -300,9 +335,5 @@ public class HostingGameActivity extends AppCompatActivity {
 
     private void toggleTurn() {
         isMyTurn = !isMyTurn;
-//        if(turn == Symbol.X)
-//            turn = Symbol.O;
-//        if(turn == Symbol.O)
-//            turn = Symbol.X;
     }
 }
