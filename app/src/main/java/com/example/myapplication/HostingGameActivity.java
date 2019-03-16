@@ -40,7 +40,7 @@ public class HostingGameActivity extends AppCompatActivity {
     private Integer xWins = 0;
     private Integer oWins = 0;
     private Integer ties = 0;
-    private String winStatus = "No winner";
+    private String winStatus = " ";
 
     //board buttons
     //00 10 20
@@ -332,10 +332,6 @@ public class HostingGameActivity extends AppCompatActivity {
         boardButton12.setText(boardArray[1][2].toString());
         boardButton22.setText(boardArray[2][2].toString());
     }
-
-//    private boolean isTurn(Symbol symbol) {
-//        return turn == symbol;
-//    }
 
     private void toggleTurn() {
         isMyTurn = !isMyTurn;
