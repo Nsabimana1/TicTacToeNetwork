@@ -40,6 +40,7 @@ public class HostingGameActivity extends AppCompatActivity {
     private Integer xWins = 0;
     private Integer oWins = 0;
     private Integer ties = 0;
+    private String winStatus = "No winner";
 
     //board buttons
     //00 10 20
@@ -88,7 +89,7 @@ public class HostingGameActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                restartGame();
-               sendMove(connectedIpAddress, Server.APP_PORT, restartGameMessage);
+//               sendMove(connectedIpAddress, Server.APP_PORT, restartGameMessage);
             }
         });
     }
@@ -98,18 +99,13 @@ public class HostingGameActivity extends AppCompatActivity {
         xWins = 0;
         oWins = 0;
         ties = 0;
-        setWinCounts();
+        setComponents();
     }
 
     public void setWinCounts(){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                xwincount.setText(xWins.toString());
-                owincount.setText(oWins.toString());
-                tiecount.setText(ties.toString());
-            }
-        });
+        xwincount.setText(xWins.toString());
+        owincount.setText(oWins.toString());
+        tiecount.setText(ties.toString());
     }
 
     public void redrawBoad(){
@@ -129,7 +125,6 @@ public class HostingGameActivity extends AppCompatActivity {
         xwincount.setText(xWins.toString());
         owincount.setText(oWins.toString());
         tiecount.setText(ties.toString());
-
         //setting board components
         setBoardButtons();
     }
@@ -210,59 +205,68 @@ public class HostingGameActivity extends AppCompatActivity {
         }
     }
 
-    public void setWinner(String winStatus){
+    public void setWinner(){
         if (winStatus.equals("X wins")){
             xWins += 1;
-
-        }if (winStatus.equals("Y wins")){
+            xwincount.setText(xWins.toString());
+        }else if (winStatus.equals("O wins")){
             oWins += 1;
-        }if (winStatus.equals("No winner")){
+            owincount.setText(oWins.toString());
+        }else if(winStatus.equals("No winner")){
             ties += 1;
+            tiecount.setText(ties.toString());
         }
     }
 
-    private void displayWins(final String winStatus){
+    private void displayWins(){
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-            setWinner(winStatus);
+            setWinner();
             setWinCounts();
             }
         });
     }
 
     private void makeMoveAt(int x, int y) {
-        String status = "[PH]";
+        String winStatus = "[PH]";
         Move move = new Move(symbol, new Coord(x,y));
         boolean moveMade = ticTacToeGame.makeMove(move);
 
         if(moveMade) {
-            status = "Move made.";
+            winStatus = "Move made.";
             String moveString = ticTacToeGame.getMoveString().substring(0,5);
             sendMove(connectedIpAddress, Server.APP_PORT, moveString);
         } else {
             if(ticTacToeGame.checkWin()!= WinState.NO_WIN) {
-                status = ticTacToeGame.checkWin().toString();
+                winStatus = ticTacToeGame.checkWin().toString();
 //                ticTacToeGame.resetBoard();
 //                updateBoard();
-                displayWins(status);
+                displayWins();
                 redrawBoad();
                 sendMove(connectedIpAddress, Server.APP_PORT, resetMessage);
             } else {
-                status = "Move not made.";
+                winStatus = "Move not made.";
             }
         }
-        Toast.makeText(getApplicationContext(), status, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), winStatus, Toast.LENGTH_SHORT).show();
         updateBoard();
     }
 
     public void displayReceivedMove(final String recMove){
         if (recMove.trim().equals(resetMessage)){
-            String status  = ticTacToeGame.checkWin().toString();
-            displayWins(status);
-            redrawBoad();
-            toggleTurn();
-        } else {
+            winStatus  = ticTacToeGame.checkWin().toString();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.e("the winner is", "winner is (" + winStatus + ")");
+                    displayWins();
+                    redrawBoad();
+                    toggleTurn();
+                    setWinCounts();
+                }
+              });
+        }else {
             final String trimmedMove = recMove.substring(0, 5);
             toggleTurn();
             Log.e("StringParsing", "displayReceivedMove(" + trimmedMove + ")");
@@ -329,9 +333,9 @@ public class HostingGameActivity extends AppCompatActivity {
         boardButton22.setText(boardArray[2][2].toString());
     }
 
-    private boolean isTurn(Symbol symbol) {
-        return turn == symbol;
-    }
+//    private boolean isTurn(Symbol symbol) {
+//        return turn == symbol;
+//    }
 
     private void toggleTurn() {
         isMyTurn = !isMyTurn;
