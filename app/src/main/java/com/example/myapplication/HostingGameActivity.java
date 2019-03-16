@@ -27,26 +27,18 @@ public class HostingGameActivity extends AppCompatActivity {
     private TextView myIPView;
     private TextView opponentIPView;
     private String receivedMoveFromTheNetwork = "" ;
-    private String localMove;
     private TicTacToeGame ticTacToeGame;
     private Symbol symbol = Symbol.X;
     private Symbol turn = Symbol.X;
     private String localPlayerSymbol;
-    private TextView xwincount;
-    private TextView owincount;
-    private TextView tiecount;
     private boolean isMyTurn = false;
     private Button restartGame;
-    private Integer xWins = 0;
-    private Integer oWins = 0;
-    private Integer ties = 0;
     private String winStatus = " ";
 
     //board buttons
     //00 10 20
     //01 11 21
     //02 12 22
-
     private Button boardButton00;
     private Button boardButton01;
     private Button boardButton02;
@@ -56,10 +48,7 @@ public class HostingGameActivity extends AppCompatActivity {
     private Button boardButton20;
     private Button boardButton21;
     private Button boardButton22;
-
     public static String resetMessage = "reset";
-    public static String restartGameMessage = "restart";
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,44 +57,38 @@ public class HostingGameActivity extends AppCompatActivity {
         connectedIpAddress = getIntent().getStringExtra(OpeningActivity.hostIpAddress);
         homeIpAddress = getIntent().getStringExtra(OpeningActivity.myLocalIpAddress);
         localPlayerSymbol = getIntent().getStringExtra(OpeningActivity.localMoveSymbol);
-        if (localPlayerSymbol.equals("O")){
-            symbol = Symbol.O;
-        }else {
-            symbol = Symbol.X;
-            isMyTurn = true;
-        }
+        setMySymbol();
         setComponents();
         setupServer();
 
         ticTacToeGame = new TicTacToeGame();
         updateBoard();
         String moveFromLocalPlayer = ticTacToeGame.getMoveString();
-
         ticTacToeGame.parseMoveString(moveFromLocalPlayer);
-        localMove = moveFromLocalPlayer;
         ticTacToeGame.parseMoveString(receivedMoveFromTheNetwork);
 
         restartGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                restartGame();
-//               sendMove(connectedIpAddress, Server.APP_PORT, restartGameMessage);
+               sendMove(connectedIpAddress, Server.APP_PORT, resetMessage);
             }
         });
     }
 
+
+    public void setMySymbol(){
+        if (localPlayerSymbol.equals("O")){
+            symbol = Symbol.O;
+        }else {
+            symbol = Symbol.X;
+            isMyTurn = true;
+        }
+    }
     public void restartGame(){
         redrawBoad();
-        xWins = 0;
-        oWins = 0;
-        ties = 0;
         setComponents();
-    }
-
-    public void setWinCounts(){
-        xwincount.setText(xWins.toString());
-        owincount.setText(oWins.toString());
-        tiecount.setText(ties.toString());
+        setMySymbol();
     }
 
     public void redrawBoad(){
@@ -118,14 +101,7 @@ public class HostingGameActivity extends AppCompatActivity {
         opponentIPView = findViewById(R.id.oponentIP_View);
         myIPView.setText(homeIpAddress);
         opponentIPView.setText(connectedIpAddress);
-        xwincount = findViewById(R.id.xWins);
-        owincount = findViewById(R.id.oWins);
-        tiecount = findViewById(R.id.ties);
         restartGame = findViewById(R.id.Restart_Button);
-        xwincount.setText(xWins.toString());
-        owincount.setText(oWins.toString());
-        tiecount.setText(ties.toString());
-        //setting board components
         setBoardButtons();
     }
 
@@ -205,44 +181,17 @@ public class HostingGameActivity extends AppCompatActivity {
         }
     }
 
-    public void setWinner(){
-        if (winStatus.equals("X wins")){
-            xWins += 1;
-            xwincount.setText(xWins.toString());
-        }else if (winStatus.equals("O wins")){
-            oWins += 1;
-            owincount.setText(oWins.toString());
-        }else if(winStatus.equals("No winner")){
-            ties += 1;
-            tiecount.setText(ties.toString());
-        }
-    }
-
-    private void displayWins(){
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-            setWinner();
-            setWinCounts();
-            }
-        });
-    }
-
     private void makeMoveAt(int x, int y) {
         String winStatus = "[PH]";
         Move move = new Move(symbol, new Coord(x,y));
         boolean moveMade = ticTacToeGame.makeMove(move);
-
-        if(moveMade) {
+        if(moveMade){
             winStatus = "Move made.";
             String moveString = ticTacToeGame.getMoveString().substring(0,5);
             sendMove(connectedIpAddress, Server.APP_PORT, moveString);
         } else {
             if(ticTacToeGame.checkWin()!= WinState.NO_WIN) {
                 winStatus = ticTacToeGame.checkWin().toString();
-//                ticTacToeGame.resetBoard();
-//                updateBoard();
-                displayWins();
                 redrawBoad();
                 sendMove(connectedIpAddress, Server.APP_PORT, resetMessage);
             } else {
@@ -259,11 +208,7 @@ public class HostingGameActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.e("the winner is", "winner is (" + winStatus + ")");
-                    displayWins();
-                    redrawBoad();
-                    toggleTurn();
-                    setWinCounts();
+                    restartGame();
                 }
               });
         }else {
@@ -315,7 +260,7 @@ public class HostingGameActivity extends AppCompatActivity {
                 });
             } catch (IOException e) {
                 Log.e(HostingGameActivity.class.getName(), "Could not start server");
-            }
+                }
             }
         }).start();
     }

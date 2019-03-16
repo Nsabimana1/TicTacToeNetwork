@@ -42,13 +42,11 @@ public class OpeningActivity extends AppCompatActivity {
     public static final String hostIpAddress = "connectedIpAddress";
     public static final String myLocalIpAddress = "MyIpAddress";
     public static final String localMoveSymbol = "initialMoveSymbol";
-    public static String toGameScreen = "gameScreen";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_opening);
-
         setupComponents();
         setupClient();
         setupServer();
@@ -179,8 +177,6 @@ public class OpeningActivity extends AppCompatActivity {
             } else if (message.equals(rejectingMessage)){
                 this.connectedIpAddress = " ";
                 messageStatusDialog("Your Request Has Been Rejected :)");
-            }else if(message.trim().equals(toGameScreen)){
-                gotoNextScreen();
             }else {
                 connectionPromptDialogBox(incomingIpAddress);
             }
@@ -234,10 +230,6 @@ public class OpeningActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int id) {
                 // nothing needs to be implemented here
-                if(connectionInitiator.isConnected()) {
-//                    gotoNextScreen();
-                    send(toGameScreen, connectedIpAddress, Server.APP_PORT);
-                }
             }
         });
         // Create the AlertDialog object and return it
